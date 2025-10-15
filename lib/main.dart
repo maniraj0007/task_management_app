@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'core/constants/app_constants.dart';
 import 'core/services/error_handler_service.dart';
 import 'core/services/storage_service.dart';
 import 'core/services/network_service.dart';
 import 'core/themes/app_theme.dart';
+import 'modules/auth/services/user_service.dart';
+import 'modules/auth/services/auth_service.dart';
 import 'routes/app_pages.dart';
 
 /// Main entry point of the TaskMaster Pro application
@@ -15,7 +18,9 @@ void main() async {
   
   try {
     // Initialize Firebase
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     
     // Initialize core services
     await _initializeServices();
@@ -38,12 +43,16 @@ Future<void> _initializeServices() async {
   Get.put(ErrorHandlerService(), permanent: true);
   Get.put(StorageService(), permanent: true);
   Get.put(NetworkService(), permanent: true);
+  Get.put(UserService(), permanent: true);
+  Get.put(AuthService(), permanent: true);
   Get.put(ThemeController(), permanent: true);
   
   // Wait for all services to initialize
   await Get.find<ErrorHandlerService>().onInit();
   await Get.find<StorageService>().onInit();
   await Get.find<NetworkService>().onInit();
+  await Get.find<UserService>().onInit();
+  await Get.find<AuthService>().onInit();
   await Get.find<ThemeController>().onInit();
 }
 
