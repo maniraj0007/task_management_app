@@ -9,6 +9,7 @@ import 'core/services/network_service.dart';
 import 'core/themes/app_theme.dart';
 import 'modules/auth/services/user_service.dart';
 import 'modules/auth/services/auth_service.dart';
+import 'modules/tasks/services/task_service.dart';
 import 'routes/app_pages.dart';
 
 /// Main entry point of the TaskMaster Pro application
@@ -45,6 +46,7 @@ Future<void> _initializeServices() async {
   Get.put(NetworkService(), permanent: true);
   Get.put(UserService(), permanent: true);
   Get.put(AuthService(), permanent: true);
+  Get.put(TaskService(), permanent: true);
   Get.put(ThemeController(), permanent: true);
   
   // Wait for all services to initialize
@@ -53,6 +55,7 @@ Future<void> _initializeServices() async {
   await Get.find<NetworkService>().onInit();
   await Get.find<UserService>().onInit();
   await Get.find<AuthService>().onInit();
+  await Get.find<TaskService>().onInit();
   await Get.find<ThemeController>().onInit();
 }
 

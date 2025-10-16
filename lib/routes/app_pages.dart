@@ -1,6 +1,13 @@
 import 'package:get/get.dart';
 import 'app_routes.dart';
 
+// Import actual screen implementations
+import '../modules/auth/views/screens/login_screen.dart';
+import '../modules/auth/views/screens/register_screen.dart';
+import '../modules/auth/controllers/auth_controller.dart';
+import '../modules/dashboard/views/screens/dashboard_screen.dart';
+import '../modules/dashboard/controllers/dashboard_controller.dart';
+
 /// GetX page configuration and routing setup
 /// Defines all application pages and their bindings
 class AppPages {
@@ -32,7 +39,7 @@ class AppPages {
     
     GetPage(
       name: AppRoutes.login,
-      page: () => const LoginView(),
+      page: () => const LoginScreen(),
       binding: AuthBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
@@ -40,7 +47,7 @@ class AppPages {
     
     GetPage(
       name: AppRoutes.register,
-      page: () => const RegisterView(),
+      page: () => const RegisterScreen(),
       binding: AuthBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
@@ -66,7 +73,7 @@ class AppPages {
     
     GetPage(
       name: AppRoutes.dashboard,
-      page: () => const DashboardView(),
+      page: () => const DashboardScreen(),
       binding: DashboardBinding(),
       transition: Transition.fade,
       transitionDuration: const Duration(milliseconds: 300),
@@ -488,18 +495,7 @@ class OnboardingView extends StatelessWidget {
   Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Onboarding View')));
 }
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
-  @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Login View')));
-}
-
-class RegisterView extends StatelessWidget {
-  const RegisterView({super.key});
-  @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Register View')));
-}
-
+// Placeholder views for screens not yet implemented
 class ForgotPasswordView extends StatelessWidget {
   const ForgotPasswordView({super.key});
   @override
@@ -510,12 +506,6 @@ class EmailVerificationView extends StatelessWidget {
   const EmailVerificationView({super.key});
   @override
   Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Email Verification View')));
-}
-
-class DashboardView extends StatelessWidget {
-  const DashboardView({super.key});
-  @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Dashboard View')));
 }
 
 // Add more placeholder views as needed...
@@ -541,14 +531,14 @@ class OnboardingBinding extends Bindings {
 class AuthBinding extends Bindings {
   @override
   void dependencies() {
-    // Get.lazyPut(() => AuthController());
+    Get.lazyPut(() => AuthController());
   }
 }
 
 class DashboardBinding extends Bindings {
   @override
   void dependencies() {
-    // Get.lazyPut(() => DashboardController());
+    Get.lazyPut(() => DashboardController());
   }
 }
 
