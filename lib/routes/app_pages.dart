@@ -7,6 +7,10 @@ import '../modules/auth/views/screens/register_screen.dart';
 import '../modules/auth/controllers/auth_controller.dart';
 import '../modules/dashboard/views/screens/dashboard_screen.dart';
 import '../modules/dashboard/controllers/dashboard_controller.dart';
+import '../modules/tasks/views/screens/task_list_screen.dart';
+import '../modules/tasks/controllers/task_list_controller.dart';
+import '../modules/tasks/views/screens/create_task_screen.dart';
+import '../modules/tasks/controllers/create_task_controller.dart';
 
 /// GetX page configuration and routing setup
 /// Defines all application pages and their bindings
@@ -111,8 +115,8 @@ class AppPages {
     
     GetPage(
       name: AppRoutes.tasks,
-      page: () => const TasksView(),
-      binding: TasksBinding(),
+      page: () => const TaskListScreen(),
+      binding: TaskListBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
       middlewares: [AuthMiddleware()],
@@ -120,8 +124,8 @@ class AppPages {
     
     GetPage(
       name: AppRoutes.createTask,
-      page: () => const CreateTaskView(),
-      binding: TasksBinding(),
+      page: () => const CreateTaskScreen(),
+      binding: CreateTaskBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
       middlewares: [AuthMiddleware()],
@@ -539,6 +543,20 @@ class DashboardBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => DashboardController());
+  }
+}
+
+class TaskListBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => TaskListController());
+  }
+}
+
+class CreateTaskBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => CreateTaskController());
   }
 }
 
