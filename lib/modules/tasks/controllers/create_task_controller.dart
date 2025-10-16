@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../core/models/task_model.dart';
+import '../models/task_model.dart';
 import '../services/task_service.dart';
 
 /// Controller for creating and editing tasks
@@ -305,4 +305,3 @@ class CreateTaskController extends GetxController {
     }
   }
 }
-

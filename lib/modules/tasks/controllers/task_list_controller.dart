@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../../../core/models/task_model.dart';
+import '../models/task_model.dart';
 import '../services/task_service.dart';
 
 /// Controller for managing task list screen state and operations
@@ -305,4 +305,3 @@ class TaskListController extends GetxController {
     _applyFiltersAndSort();
   }
 }
-
