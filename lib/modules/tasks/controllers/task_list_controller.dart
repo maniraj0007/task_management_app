@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../models/task_model.dart';
 import '../services/task_service.dart';
+import '../../../core/enums/task_enums.dart';
 
 /// Controller for managing task list screen state and operations
 class TaskListController extends GetxController {
@@ -14,6 +15,9 @@ class TaskListController extends GetxController {
   final RxString _selectedFilter = 'all'.obs;
   final RxString _selectedSort = 'dueDate'.obs;
   final RxBool _isAscending = true.obs;
+  final Rx<TaskStatus?> _selectedStatusFilter = Rx<TaskStatus?>(null);
+  final Rx<TaskPriority?> _selectedPriorityFilter = Rx<TaskPriority?>(null);
+  final RxBool _showOverdueOnly = false.obs;
   
   // Getters
   List<TaskModel> get tasks => _tasks;
@@ -23,6 +27,15 @@ class TaskListController extends GetxController {
   String get selectedFilter => _selectedFilter.value;
   String get selectedSort => _selectedSort.value;
   bool get isAscending => _isAscending.value;
+  TaskStatus? get selectedStatusFilter => _selectedStatusFilter.value;
+  TaskPriority? get selectedPriorityFilter => _selectedPriorityFilter.value;
+  bool get showOverdueOnly => _showOverdueOnly.value;
+  
+  // Statistics getters
+  int get totalTasks => _tasks.length;
+  int get pendingTasks => _tasks.where((task) => task.status == TaskStatus.todo).length;
+  int get inProgressTasks => _tasks.where((task) => task.status == TaskStatus.inProgress).length;
+  int get completedTasks => _tasks.where((task) => task.status == TaskStatus.completed).length;
   
   // Filter options
   final List<String> filterOptions = [
@@ -132,7 +145,7 @@ class TaskListController extends GetxController {
     // Apply status/priority filters
     switch (_selectedFilter.value) {
       case 'pending':
-        filtered = filtered.where((task) => task.status == TaskStatus.pending).toList();
+        filtered = filtered.where((task) => task.status == TaskStatus.todo).toList();
         break;
       case 'in_progress':
         filtered = filtered.where((task) => task.status == TaskStatus.inProgress).toList();
@@ -160,6 +173,23 @@ class TaskListController extends GetxController {
       default:
         // No additional filtering
         break;
+    }
+    
+    // Apply additional filters
+    if (_selectedStatusFilter.value != null) {
+      filtered = filtered.where((task) => task.status == _selectedStatusFilter.value).toList();
+    }
+    
+    if (_selectedPriorityFilter.value != null) {
+      filtered = filtered.where((task) => task.priority == _selectedPriorityFilter.value).toList();
+    }
+    
+    if (_showOverdueOnly.value) {
+      filtered = filtered.where((task) => 
+        task.dueDate != null && 
+        task.dueDate!.isBefore(DateTime.now()) && 
+        task.status != TaskStatus.completed
+      ).toList();
     }
     
     // Apply sorting
@@ -296,12 +326,33 @@ class TaskListController extends GetxController {
     ).length;
   }
   
+  /// Set status filter
+  void setStatusFilter(TaskStatus? status) {
+    _selectedStatusFilter.value = status;
+    _applyFiltersAndSort();
+  }
+  
+  /// Set priority filter
+  void setPriorityFilter(TaskPriority? priority) {
+    _selectedPriorityFilter.value = priority;
+    _applyFiltersAndSort();
+  }
+  
+  /// Toggle overdue filter
+  void toggleOverdueFilter() {
+    _showOverdueOnly.value = !_showOverdueOnly.value;
+    _applyFiltersAndSort();
+  }
+  
   /// Clear all filters
   void clearFilters() {
     _searchQuery.value = '';
     _selectedFilter.value = 'all';
     _selectedSort.value = 'dueDate';
     _isAscending.value = true;
+    _selectedStatusFilter.value = null;
+    _selectedPriorityFilter.value = null;
+    _showOverdueOnly.value = false;
     _applyFiltersAndSort();
   }
 }

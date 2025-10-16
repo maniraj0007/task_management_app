@@ -166,12 +166,16 @@ class TaskDetailController extends GetxController {
     if (_task.value == null) return Colors.grey;
     
     switch (_task.value!.status) {
-      case TaskStatus.pending:
+      case TaskStatus.todo:
         return Colors.grey;
       case TaskStatus.inProgress:
         return Colors.blue;
       case TaskStatus.completed:
         return Colors.green;
+      case TaskStatus.review:
+        return Colors.orange;
+      case TaskStatus.cancelled:
+        return Colors.red;
     }
   }
   
@@ -194,12 +198,16 @@ class TaskDetailController extends GetxController {
     if (_task.value == null) return '';
     
     switch (_task.value!.status) {
-      case TaskStatus.pending:
-        return 'Pending';
+      case TaskStatus.todo:
+        return 'To Do';
       case TaskStatus.inProgress:
         return 'In Progress';
       case TaskStatus.completed:
         return 'Completed';
+      case TaskStatus.review:
+        return 'Under Review';
+      case TaskStatus.cancelled:
+        return 'Cancelled';
     }
   }
   

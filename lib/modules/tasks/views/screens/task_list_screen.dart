@@ -202,10 +202,10 @@ class TaskListScreen extends GetView<TaskListController> {
             Colors.blue,
           ),
           _buildStatItem(
-            'Pending',
+            'To Do',
             controller.pendingTasks.toString(),
-            Icons.schedule,
-            Colors.orange,
+            Icons.radio_button_unchecked,
+            Colors.grey,
           ),
           _buildStatItem(
             'In Progress',
@@ -548,36 +548,48 @@ class TaskListScreen extends GetView<TaskListController> {
   /// Get status icon
   IconData _getStatusIcon(TaskStatus status) {
     switch (status) {
-      case TaskStatus.pending:
-        return Icons.schedule;
+      case TaskStatus.todo:
+        return Icons.radio_button_unchecked;
       case TaskStatus.inProgress:
         return Icons.play_circle_outline;
       case TaskStatus.completed:
         return Icons.check_circle_outline;
+      case TaskStatus.review:
+        return Icons.rate_review;
+      case TaskStatus.cancelled:
+        return Icons.cancel;
     }
   }
 
   /// Get status color
   Color _getStatusColor(TaskStatus status) {
     switch (status) {
-      case TaskStatus.pending:
+      case TaskStatus.todo:
         return Colors.grey;
       case TaskStatus.inProgress:
         return Colors.blue;
       case TaskStatus.completed:
         return Colors.green;
+      case TaskStatus.review:
+        return Colors.orange;
+      case TaskStatus.cancelled:
+        return Colors.red;
     }
   }
 
   /// Get status text
   String _getStatusText(TaskStatus status) {
     switch (status) {
-      case TaskStatus.pending:
-        return 'Pending';
+      case TaskStatus.todo:
+        return 'To Do';
       case TaskStatus.inProgress:
         return 'In Progress';
       case TaskStatus.completed:
         return 'Completed';
+      case TaskStatus.review:
+        return 'Under Review';
+      case TaskStatus.cancelled:
+        return 'Cancelled';
     }
   }
 
@@ -621,4 +633,3 @@ class TaskListScreen extends GetView<TaskListController> {
     }
   }
 }
-

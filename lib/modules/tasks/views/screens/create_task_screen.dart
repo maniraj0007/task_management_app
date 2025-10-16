@@ -324,12 +324,16 @@ class CreateTaskScreen extends GetView<CreateTaskController> {
   /// Get status icon
   IconData _getStatusIcon(TaskStatus status) {
     switch (status) {
-      case TaskStatus.pending:
-        return Icons.schedule;
+      case TaskStatus.todo:
+        return Icons.radio_button_unchecked;
       case TaskStatus.inProgress:
         return Icons.play_circle_outline;
       case TaskStatus.completed:
         return Icons.check_circle_outline;
+      case TaskStatus.review:
+        return Icons.rate_review;
+      case TaskStatus.cancelled:
+        return Icons.cancel;
     }
   }
 
@@ -354,4 +358,3 @@ class CreateTaskScreen extends GetView<CreateTaskController> {
     return '$dateStr at $timeStr';
   }
 }
-

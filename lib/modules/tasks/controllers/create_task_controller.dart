@@ -15,7 +15,7 @@ class CreateTaskController extends GetxController {
   final RxBool _isLoading = false.obs;
   final RxBool _isEditMode = false.obs;
   final Rx<TaskPriority> _selectedPriority = TaskPriority.medium.obs;
-  final Rx<TaskStatus> _selectedStatus = TaskStatus.pending.obs;
+  final Rx<TaskStatus> _selectedStatus = TaskStatus.todo.obs;
   final Rx<DateTime?> _selectedDueDate = Rx<DateTime?>(null);
   final RxString _selectedCategory = ''.obs;
   final RxList<String> _assignedUsers = <String>[].obs;
@@ -251,7 +251,7 @@ class CreateTaskController extends GetxController {
     titleController.clear();
     descriptionController.clear();
     _selectedPriority.value = TaskPriority.medium;
-    _selectedStatus.value = TaskStatus.pending;
+    _selectedStatus.value = TaskStatus.todo;
     _selectedDueDate.value = null;
     _selectedCategory.value = '';
     _assignedUsers.clear();
@@ -272,12 +272,16 @@ class CreateTaskController extends GetxController {
   /// Get status display name
   String getStatusDisplayName(TaskStatus status) {
     switch (status) {
-      case TaskStatus.pending:
-        return 'Pending';
+      case TaskStatus.todo:
+        return 'To Do';
       case TaskStatus.inProgress:
         return 'In Progress';
       case TaskStatus.completed:
         return 'Completed';
+      case TaskStatus.review:
+        return 'Under Review';
+      case TaskStatus.cancelled:
+        return 'Cancelled';
     }
   }
   
@@ -296,12 +300,16 @@ class CreateTaskController extends GetxController {
   /// Get status color
   Color getStatusColor(TaskStatus status) {
     switch (status) {
-      case TaskStatus.pending:
+      case TaskStatus.todo:
         return Colors.grey;
       case TaskStatus.inProgress:
         return Colors.blue;
       case TaskStatus.completed:
         return Colors.green;
+      case TaskStatus.review:
+        return Colors.orange;
+      case TaskStatus.cancelled:
+        return Colors.red;
     }
   }
 }
