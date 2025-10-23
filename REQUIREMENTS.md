@@ -283,7 +283,7 @@ MAILGUN_FROM_EMAIL=noreply@yourdomain.com
 
 #### **Required Credentials:**
 ```env
-SLACK_WEBHOOK_URL=https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR_TEAM_ID/YOUR_CHANNEL_ID/YOUR_WEBHOOK_TOKEN
 SLACK_CHANNEL=#general
 SLACK_USERNAME=TaskBot
 ```
@@ -392,8 +392,8 @@ MAILGUN_DOMAIN=mg.yourdomain.com
 MAILGUN_FROM_EMAIL=noreply@yourdomain.com
 
 # Third-party Integrations (Optional)
-SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK
-TEAMS_WEBHOOK_URL=https://outlook.office.com/webhook/YOUR-TEAMS-WEBHOOK
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR_TEAM/YOUR_CHANNEL/YOUR_TOKEN
+TEAMS_WEBHOOK_URL=https://outlook.office.com/webhook/YOUR_TEAMS_WEBHOOK_URL
 
 # Google Calendar (Optional)
 GOOGLE_CALENDAR_CLIENT_ID=your-google-client-id
