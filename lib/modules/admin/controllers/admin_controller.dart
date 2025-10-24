@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../services/admin_service.dart';
-import '../../auth/models/user_model.dart';
 
 /// Admin Controller
 /// Manages admin-related state and operations using GetX
