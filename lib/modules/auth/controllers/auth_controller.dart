@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/enums/user_roles.dart';
 import '../models/user_model.dart';
@@ -10,9 +11,20 @@ class AuthController extends GetxController {
   
   final AuthService _authService = Get.find<AuthService>();
   
+  // Form controllers
+  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  
   // Reactive state
   final RxBool _isLoading = false.obs;
   final RxBool _isInitialized = false.obs;
+  final RxBool isPasswordHidden = true.obs;
+  final RxBool rememberMe = false.obs;
   
   // Getters
   bool get isLoading => _isLoading.value;
@@ -100,7 +112,223 @@ class AuthController extends GetxController {
     }
   }
   
+  // ==================== FORM METHODS ====================
+  
+  /// Toggle password visibility
+  void togglePasswordVisibility() {
+    isPasswordHidden.value = !isPasswordHidden.value;
+  }
+  
+  /// Validate email field
+  String? validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Email is required';
+    }
+    if (!GetUtils.isEmail(value)) {
+      return 'Please enter a valid email address';
+    }
+    return null;
+  }
+  
+  /// Validate password field
+  String? validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+    if (value.length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+    return null;
+  }
+  
+  /// Validate name field
+  String? validateName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'This field is required';
+    }
+    if (value.length < 2) {
+      return 'Name must be at least 2 characters';
+    }
+    return null;
+  }
+  
+  /// Clear form fields
+  void clearFormFields() {
+    emailController.clear();
+    passwordController.clear();
+    firstNameController.clear();
+    lastNameController.clear();
+    phoneController.clear();
+    isPasswordHidden.value = true;
+    rememberMe.value = false;
+  }
+  
   // ==================== AUTHENTICATION METHODS ====================
+  
+  /// Login with email and password
+  Future<void> login() async {
+    if (!loginFormKey.currentState!.validate()) return;
+    
+    try {
+      _isLoading.value = true;
+      
+      final user = await _authService.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text,
+      );
+      
+      if (user != null) {
+        Get.snackbar(
+          'Success',
+          'Signed in successfully',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+        
+        // Navigate based on user role
+        _navigateBasedOnRole();
+        
+        // Clear form if not remembering
+        if (!rememberMe.value) {
+          clearFormFields();
+        }
+      } else {
+        Get.snackbar(
+          'Login Failed',
+          'Invalid email or password',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'An unexpected error occurred',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+  
+  /// Register new user
+  Future<void> register() async {
+    if (!registerFormKey.currentState!.validate()) return;
+    
+    try {
+      _isLoading.value = true;
+      
+      final user = await _authService.registerWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text,
+        firstName: firstNameController.text.trim(),
+        lastName: lastNameController.text.trim(),
+        phoneNumber: phoneController.text.trim().isEmpty ? null : phoneController.text.trim(),
+      );
+      
+      if (user != null) {
+        Get.snackbar(
+          'Success',
+          'Registration successful! Please verify your email.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+        
+        // Navigate to email verification screen or main app
+        Get.offAllNamed('/main-navigation');
+        clearFormFields();
+      } else {
+        Get.snackbar(
+          'Registration Failed',
+          'Failed to create account. Please try again.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'An unexpected error occurred',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+  
+  /// Sign in with Google
+  Future<void> signInWithGoogle() async {
+    Get.snackbar(
+      'Coming Soon',
+      'Google Sign In will be available in a future update',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.orange,
+      colorText: Colors.white,
+    );
+  }
+  
+  /// Sign in with Apple (placeholder)
+  Future<void> signInWithApple() async {
+    Get.snackbar(
+      'Coming Soon',
+      'Apple Sign In will be available soon',
+      snackPosition: SnackPosition.BOTTOM,
+    );
+  }
+  
+  /// Sign in with Facebook (placeholder)
+  Future<void> signInWithFacebook() async {
+    Get.snackbar(
+      'Coming Soon',
+      'Facebook Sign In will be available soon',
+      snackPosition: SnackPosition.BOTTOM,
+    );
+  }
+  
+  /// Send password reset email
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      _isLoading.value = true;
+      
+      final success = await _authService.sendPasswordResetEmail(email);
+      
+      if (success) {
+        Get.snackbar(
+          'Success',
+          'Password reset email sent successfully',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+      } else {
+        Get.snackbar(
+          'Error',
+          'Failed to send password reset email',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to send password reset email',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } finally {
+      _isLoading.value = false;
+    }
+  }
   
   /// Sign out current user
   Future<void> signOut() async {
@@ -113,6 +341,10 @@ class AuthController extends GetxController {
         'Signed out successfully',
         snackPosition: SnackPosition.BOTTOM,
       );
+      
+      // Navigate to login screen
+      Get.offAllNamed('/login');
+      clearFormFields();
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -317,5 +549,16 @@ class AuthController extends GetxController {
         // App hidden - pause operations
         break;
     }
+  }
+  
+  @override
+  void onClose() {
+    // Dispose of text controllers
+    emailController.dispose();
+    passwordController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    phoneController.dispose();
+    super.onClose();
   }
 }

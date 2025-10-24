@@ -19,6 +19,7 @@ import '../modules/navigation/views/screens/main_navigation_screen.dart';
 // Import actual screen implementations
 import '../modules/auth/views/screens/login_screen.dart';
 import '../modules/auth/views/screens/register_screen.dart';
+import '../modules/auth/views/screens/forgot_password_screen.dart';
 import '../modules/auth/controllers/auth_controller.dart';
 import '../modules/dashboard/views/screens/dashboard_screen.dart';
 import '../modules/dashboard/controllers/dashboard_controller.dart';
@@ -76,7 +77,7 @@ class AppPages {
     
     GetPage(
       name: AppRoutes.forgotPassword,
-      page: () => const ForgotPasswordView(),
+      page: () => const ForgotPasswordScreen(),
       binding: AuthBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
