@@ -1,10 +1,14 @@
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'app_routes.dart';
 
 // Import bindings
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/onboarding/bindings/onboarding_binding.dart';
 import '../modules/auth/bindings/auth_binding.dart';
+import '../modules/tasks/bindings/task_binding.dart';
+import '../modules/tasks/bindings/create_task_binding.dart';
+import '../modules/tasks/bindings/task_detail_binding.dart';
 
 // Import views
 import '../modules/onboarding/views/screens/onboarding_screen.dart';
@@ -126,7 +130,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.tasks,
       page: () => const TaskListScreen(),
-      binding: TaskListBinding(),
+      binding: TaskBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
       middlewares: [AuthMiddleware()],
@@ -161,8 +165,8 @@ class AppPages {
     
     GetPage(
       name: AppRoutes.personalTasks,
-      page: () => const PersonalTasksView(),
-      binding: TasksBinding(),
+      page: () => const TaskListScreen(),
+      binding: TaskBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
       middlewares: [AuthMiddleware()],
@@ -170,8 +174,8 @@ class AppPages {
     
     GetPage(
       name: AppRoutes.teamTasks,
-      page: () => const TeamTasksView(),
-      binding: TasksBinding(),
+      page: () => const TaskListScreen(),
+      binding: TaskBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
       middlewares: [AuthMiddleware()],
@@ -179,8 +183,8 @@ class AppPages {
     
     GetPage(
       name: AppRoutes.projectTasks,
-      page: () => const ProjectTasksView(),
-      binding: TasksBinding(),
+      page: () => const TaskListScreen(),
+      binding: TaskBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
       middlewares: [AuthMiddleware()],
@@ -522,8 +526,78 @@ class EmailVerificationView extends StatelessWidget {
   Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Email Verification View')));
 }
 
-// Add more placeholder views as needed...
-// (These will be implemented in subsequent phases)
+class ProfileView extends StatelessWidget {
+  const ProfileView({super.key});
+  @override
+  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Profile View')));
+}
+
+class SettingsView extends StatelessWidget {
+  const SettingsView({super.key});
+  @override
+  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Settings View')));
+}
+
+class NotificationsView extends StatelessWidget {
+  const NotificationsView({super.key});
+  @override
+  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Notifications View')));
+}
+
+class TeamsView extends StatelessWidget {
+  const TeamsView({super.key});
+  @override
+  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Teams View')));
+}
+
+class ProjectsView extends StatelessWidget {
+  const ProjectsView({super.key});
+  @override
+  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Projects View')));
+}
+
+// Settings sub-views
+class SystemSettingsView extends StatelessWidget {
+  const SystemSettingsView({super.key});
+  @override
+  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('System Settings View')));
+}
+
+class AccountSettingsView extends StatelessWidget {
+  const AccountSettingsView({super.key});
+  @override
+  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Account Settings View')));
+}
+
+class PrivacySettingsView extends StatelessWidget {
+  const PrivacySettingsView({super.key});
+  @override
+  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Privacy Settings View')));
+}
+
+class NotificationSettingsView extends StatelessWidget {
+  const NotificationSettingsView({super.key});
+  @override
+  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Notification Settings View')));
+}
+
+class ThemeSettingsView extends StatelessWidget {
+  const ThemeSettingsView({super.key});
+  @override
+  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Theme Settings View')));
+}
+
+class LanguageSettingsView extends StatelessWidget {
+  const LanguageSettingsView({super.key});
+  @override
+  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Language Settings View')));
+}
+
+class SecuritySettingsView extends StatelessWidget {
+  const SecuritySettingsView({super.key});
+  @override
+  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Security Settings View')));
+}
 
 // ==================== PLACEHOLDER BINDINGS ====================
 // These will be replaced with actual implementations in future phases
@@ -556,29 +630,48 @@ class DashboardBinding extends Bindings {
   }
 }
 
-class TaskListBinding extends Bindings {
+
+
+// Placeholder bindings for modules not yet fully implemented
+class ProfileBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => TaskListController());
+    // TODO: Implement ProfileController
+    // Get.lazyPut(() => ProfileController());
   }
 }
 
-class CreateTaskBinding extends Bindings {
+class SettingsBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => CreateTaskController());
+    // TODO: Implement SettingsController
+    // Get.lazyPut(() => SettingsController());
   }
 }
 
-class TaskDetailBinding extends Bindings {
+class NotificationsBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => TaskDetailController());
+    // TODO: Implement NotificationsController
+    // Get.lazyPut(() => NotificationsController());
   }
 }
 
-// Add more placeholder bindings as needed...
-// (These will be implemented in subsequent phases)
+class TeamsBinding extends Bindings {
+  @override
+  void dependencies() {
+    // TODO: Implement TeamsController
+    // Get.lazyPut(() => TeamsController());
+  }
+}
+
+class ProjectsBinding extends Bindings {
+  @override
+  void dependencies() {
+    // TODO: Implement ProjectsController
+    // Get.lazyPut(() => ProjectsController());
+  }
+}
 
 // ==================== PLACEHOLDER MIDDLEWARES ====================
 // These will be replaced with actual implementations in future phases
