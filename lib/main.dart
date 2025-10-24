@@ -6,10 +6,16 @@ import 'core/constants/app_constants.dart';
 import 'core/services/error_handler_service.dart';
 import 'core/services/storage_service.dart';
 import 'core/services/network_service.dart';
+import 'core/services/performance_service.dart';
+import 'core/services/data_sync_service.dart';
+import 'core/services/state_management_service.dart';
 import 'core/themes/app_theme.dart';
 import 'modules/auth/services/user_service.dart';
 import 'modules/auth/services/auth_service.dart';
 import 'modules/tasks/services/task_service.dart';
+import 'modules/analytics/services/analytics_service.dart';
+import 'modules/search/services/search_service.dart';
+import 'modules/notifications/services/notification_service.dart';
 import 'routes/app_pages.dart';
 
 /// Main entry point of the TaskMaster Pro application
@@ -44,18 +50,30 @@ Future<void> _initializeServices() async {
   Get.put(ErrorHandlerService(), permanent: true);
   Get.put(StorageService(), permanent: true);
   Get.put(NetworkService(), permanent: true);
+  Get.put(PerformanceService(), permanent: true);
   Get.put(UserService(), permanent: true);
   Get.put(AuthService(), permanent: true);
   Get.put(TaskService(), permanent: true);
+  Get.put(DataSyncService(), permanent: true);
+  Get.put(AnalyticsService(), permanent: true);
+  Get.put(SearchService(), permanent: true);
+  Get.put(NotificationService(), permanent: true);
+  Get.put(StateManagementService(), permanent: true);
   Get.put(ThemeController(), permanent: true);
   
   // Wait for all services to initialize
   await Get.find<ErrorHandlerService>().onInit();
   await Get.find<StorageService>().onInit();
   await Get.find<NetworkService>().onInit();
+  await Get.find<PerformanceService>().onInit();
   await Get.find<UserService>().onInit();
   await Get.find<AuthService>().onInit();
   await Get.find<TaskService>().onInit();
+  await Get.find<DataSyncService>().onInit();
+  await Get.find<AnalyticsService>().onInit();
+  await Get.find<SearchService>().onInit();
+  await Get.find<NotificationService>().onInit();
+  await Get.find<StateManagementService>().onInit();
   await Get.find<ThemeController>().onInit();
 }
 
