@@ -3,14 +3,15 @@ import 'package:get/get.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/dimensions.dart';
 import '../../controllers/navigation_controller.dart';
-import '../../../dashboard/views/screens/dashboard_screen.dart';
-import '../../../tasks/views/screens/task_list_screen.dart';
+// Import actual screen implementations
+import '../../../dashboard/views/screens/dashboard_screen.dart' as dashboard;
+import '../../../tasks/views/screens/task_list_screen.dart' as tasks;
 import '../../../teams/views/screens/team_list_screen.dart';
 import '../../../projects/views/screens/project_list_screen.dart';
-import '../../../search/views/screens/global_search_screen.dart';
-import '../../../analytics/views/screens/analytics_dashboard_screen.dart';
-import '../../../notifications/views/screens/notification_list_screen.dart';
-import '../../../profile/views/screens/profile_screen.dart';
+import '../../../search/views/screens/global_search_screen.dart' as search;
+import '../../../analytics/views/screens/analytics_dashboard_screen.dart' as analytics;
+import '../../../notifications/views/screens/notification_list_screen.dart' as notifications;
+import '../../../profile/views/screens/profile_screen.dart' as profile;
 
 /// Main Navigation Screen
 /// Provides bottom navigation and manages main app screens
@@ -33,14 +34,14 @@ class MainNavigationScreen extends GetView<NavigationController> {
   /// Get screens for navigation
   List<Widget> _getScreens() {
     return [
-      const DashboardScreen(),
-      const TaskListScreen(),
+      const dashboard.DashboardScreen(),
+      const tasks.TaskListScreen(),
       const TeamListScreen(),
       const ProjectListScreen(),
-      const GlobalSearchScreen(),
-      const AnalyticsDashboardScreen(),
-      const NotificationListScreen(),
-      const ProfileScreen(),
+      const search.GlobalSearchScreen(),
+      const analytics.AnalyticsDashboardScreen(),
+      const notifications.NotificationListScreen(),
+      const profile.ProfileScreen(),
     ];
   }
 
@@ -148,249 +149,4 @@ class MainNavigationScreen extends GetView<NavigationController> {
   }
 }
 
-/// Placeholder screens for navigation (will be replaced with actual implementations)
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dashboard'),
-        actions: [
-          IconButton(
-            onPressed: () => Get.toNamed('/notifications'),
-            icon: const Icon(Icons.notifications),
-          ),
-          IconButton(
-            onPressed: () => Get.toNamed('/settings'),
-            icon: const Icon(Icons.settings),
-          ),
-        ],
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.dashboard, size: 64, color: Colors.grey),
-            SizedBox(height: 16),
-            Text(
-              'Dashboard Screen',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Welcome to your task management dashboard',
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class TaskListScreen extends StatelessWidget {
-  const TaskListScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tasks'),
-        actions: [
-          IconButton(
-            onPressed: () => Get.toNamed('/tasks/filters'),
-            icon: const Icon(Icons.filter_list),
-          ),
-          IconButton(
-            onPressed: () => Get.toNamed('/search'),
-            icon: const Icon(Icons.search),
-          ),
-        ],
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.task_alt, size: 64, color: Colors.grey),
-            SizedBox(height: 16),
-            Text(
-              'Tasks Screen',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Manage your personal and team tasks',
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class TeamListScreen extends StatelessWidget {
-  const TeamListScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Teams'),
-        actions: [
-          IconButton(
-            onPressed: () => Get.toNamed('/teams/invitations'),
-            icon: const Icon(Icons.mail),
-          ),
-          IconButton(
-            onPressed: () => Get.toNamed('/search'),
-            icon: const Icon(Icons.search),
-          ),
-        ],
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.group, size: 64, color: Colors.grey),
-            SizedBox(height: 16),
-            Text(
-              'Teams Screen',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Collaborate with your teams',
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ProjectListScreen extends StatelessWidget {
-  const ProjectListScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Projects'),
-        actions: [
-          IconButton(
-            onPressed: () => Get.toNamed('/projects/templates'),
-            icon: const Icon(Icons.template_outlined),
-          ),
-          IconButton(
-            onPressed: () => Get.toNamed('/search'),
-            icon: const Icon(Icons.search),
-          ),
-        ],
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.folder, size: 64, color: Colors.grey),
-            SizedBox(height: 16),
-            Text(
-              'Projects Screen',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Manage your projects and milestones',
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class NotificationListScreen extends StatelessWidget {
-  const NotificationListScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Notifications'),
-        actions: [
-          IconButton(
-            onPressed: () => Get.toNamed('/notifications/settings'),
-            icon: const Icon(Icons.settings),
-          ),
-          IconButton(
-            onPressed: () {}, // Mark all as read
-            icon: const Icon(Icons.done_all),
-          ),
-        ],
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.notifications, size: 64, color: Colors.grey),
-            SizedBox(height: 16),
-            Text(
-              'Notifications Screen',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Stay updated with your notifications',
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-        actions: [
-          IconButton(
-            onPressed: () => Get.toNamed('/settings'),
-            icon: const Icon(Icons.settings),
-          ),
-          IconButton(
-            onPressed: () => Get.toNamed('/profile/edit'),
-            icon: const Icon(Icons.edit),
-          ),
-        ],
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.person, size: 64, color: Colors.grey),
-            SizedBox(height: 16),
-            Text(
-              'Profile Screen',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Manage your profile and preferences',
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

@@ -20,8 +20,8 @@ class SplashController extends GetxController {
     
     // Check authentication status
     if (_authService.isLoggedIn) {
-      // User is authenticated, go to dashboard
-      Get.offAllNamed(AppRoutes.dashboard);
+      // User is authenticated, go to main navigation
+      Get.offAllNamed(AppRoutes.mainNavigation);
     } else {
       // User is not authenticated, go to login
       Get.offAllNamed(AppRoutes.login);

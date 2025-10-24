@@ -6,12 +6,15 @@ import 'app_routes.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/onboarding/bindings/onboarding_binding.dart';
 import '../modules/auth/bindings/auth_binding.dart';
+import '../modules/navigation/bindings/navigation_binding.dart';
 import '../modules/tasks/bindings/task_binding.dart';
 import '../modules/tasks/bindings/create_task_binding.dart';
 import '../modules/tasks/bindings/task_detail_binding.dart';
 
 // Import views
+import '../modules/splash/views/splash_screen.dart';
 import '../modules/onboarding/views/screens/onboarding_screen.dart';
+import '../modules/navigation/views/screens/main_navigation_screen.dart';
 
 // Import actual screen implementations
 import '../modules/auth/views/screens/login_screen.dart';
@@ -41,7 +44,7 @@ class AppPages {
     
     GetPage(
       name: AppRoutes.initial,
-      page: () => const SplashView(),
+      page: () => const SplashScreen(),
       binding: SplashBinding(),
       transition: Transition.fade,
       transitionDuration: const Duration(milliseconds: 300),
@@ -88,6 +91,15 @@ class AppPages {
     ),
     
     // ==================== MAIN APP PAGES ====================
+    
+    GetPage(
+      name: AppRoutes.mainNavigation,
+      page: () => const MainNavigationScreen(),
+      binding: NavigationBinding(),
+      transition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 300),
+      middlewares: [AuthMiddleware()],
+    ),
     
     GetPage(
       name: AppRoutes.dashboard,

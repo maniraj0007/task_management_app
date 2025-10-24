@@ -26,6 +26,9 @@ class AppRoutes {
   
   // ==================== MAIN APP ROUTES ====================
   
+  /// Main navigation screen with bottom navigation
+  static const String mainNavigation = '/main';
+  
   /// Main dashboard/home screen
   static const String dashboard = '/dashboard';
   
