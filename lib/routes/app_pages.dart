@@ -24,6 +24,7 @@ import '../modules/auth/controllers/auth_controller.dart';
 import '../modules/dashboard/views/screens/dashboard_screen.dart';
 import '../modules/dashboard/controllers/dashboard_controller.dart';
 import '../modules/tasks/views/screens/task_list_screen.dart';
+import '../modules/tasks/views/screens/enhanced_task_list_screen.dart';
 import '../modules/tasks/controllers/task_list_controller.dart';
 import '../modules/tasks/views/screens/create_task_screen.dart';
 import '../modules/tasks/controllers/create_task_controller.dart';
@@ -142,7 +143,7 @@ class AppPages {
     
     GetPage(
       name: AppRoutes.tasks,
-      page: () => const TaskListScreen(),
+      page: () => const EnhancedTaskListScreen(),
       binding: TaskBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
