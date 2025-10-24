@@ -34,6 +34,13 @@ class DataSyncService extends GetxService {
   List<ProjectModel> get projects => _projects.value;
   List<NotificationModel> get notifications => _notifications.value;
   List<UserModel> get users => _users.value;
+  
+  // Getters for reactive streams (for state management)
+  Rx<List<TaskModel>> get tasksStream => _tasks;
+  Rx<List<TeamModel>> get teamsStream => _teams;
+  Rx<List<ProjectModel>> get projectsStream => _projects;
+  Rx<List<NotificationModel>> get notificationsStream => _notifications;
+  Rx<List<UserModel>> get usersStream => _users;
 
   // Loading states
   final RxBool _isLoading = false.obs;

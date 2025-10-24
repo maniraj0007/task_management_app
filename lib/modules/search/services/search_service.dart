@@ -779,4 +779,30 @@ class SearchService extends GetxService {
 
   /// Get total result count
   int get totalResultCount => _searchResults.length;
+
+  // ==================== INDEX UPDATE METHODS ====================
+  
+  /// Update task search index
+  void updateTaskIndex(List<dynamic> tasks) {
+    // Update the search index with new task data
+    // This would typically rebuild search indexes or update cached data
+    // For now, we'll just trigger a refresh of suggestions
+    _loadSuggestions();
+  }
+  
+  /// Update team search index
+  void updateTeamIndex(List<dynamic> teams) {
+    // Update the search index with new team data
+    // This would typically rebuild search indexes or update cached data
+    // For now, we'll just trigger a refresh of suggestions
+    _loadSuggestions();
+  }
+  
+  /// Update project search index
+  void updateProjectIndex(List<dynamic> projects) {
+    // Update the search index with new project data
+    // This would typically rebuild search indexes or update cached data
+    // For now, we'll just trigger a refresh of suggestions
+    _loadSuggestions();
+  }
 }

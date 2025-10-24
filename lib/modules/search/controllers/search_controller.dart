@@ -387,4 +387,27 @@ class SearchController extends GetxController {
       _showSuggestions.value = false;
     });
   }
+
+  // ==================== DATA UPDATE METHODS ====================
+  
+  /// Update task search data
+  void updateTaskSearchData(List<dynamic> tasks) {
+    // Update search index with new task data
+    // This method is called by StateManagementService
+    _searchService.updateTaskIndex(tasks);
+  }
+  
+  /// Update team search data
+  void updateTeamSearchData(List<dynamic> teams) {
+    // Update search index with new team data
+    // This method is called by StateManagementService
+    _searchService.updateTeamIndex(teams);
+  }
+  
+  /// Update project search data
+  void updateProjectSearchData(List<dynamic> projects) {
+    // Update search index with new project data
+    // This method is called by StateManagementService
+    _searchService.updateProjectIndex(projects);
+  }
 }

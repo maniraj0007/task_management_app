@@ -426,4 +426,13 @@ class NotificationController extends GetxController {
         return Colors.red.shade800;
     }
   }
+
+  // ==================== DATA UPDATE METHODS ====================
+  
+  /// Update notification data
+  void updateNotificationData(List<dynamic> notifications) {
+    // Update notification data
+    // This method is called by StateManagementService
+    _applyFilters();
+  }
 }

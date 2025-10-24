@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:get/get.dart';
 import 'data_sync_service.dart';
 import '../../modules/analytics/controllers/analytics_controller.dart';
@@ -56,31 +57,31 @@ class StateManagementService extends GetxService {
   /// Setup data sync listeners
   void _setupDataSyncListeners() {
     // Listen to task changes
-    ever(_dataSyncService._tasks, (tasks) {
+    ever(_dataSyncService.tasksStream, (tasks) {
       _syncTasksToControllers(tasks);
       _updateLastSyncTime('tasks');
     });
 
     // Listen to team changes
-    ever(_dataSyncService._teams, (teams) {
+    ever(_dataSyncService.teamsStream, (teams) {
       _syncTeamsToControllers(teams);
       _updateLastSyncTime('teams');
     });
 
     // Listen to project changes
-    ever(_dataSyncService._projects, (projects) {
+    ever(_dataSyncService.projectsStream, (projects) {
       _syncProjectsToControllers(projects);
       _updateLastSyncTime('projects');
     });
 
     // Listen to notification changes
-    ever(_dataSyncService._notifications, (notifications) {
+    ever(_dataSyncService.notificationsStream, (notifications) {
       _syncNotificationsToControllers(notifications);
       _updateLastSyncTime('notifications');
     });
 
     // Listen to user changes
-    ever(_dataSyncService._users, (users) {
+    ever(_dataSyncService.usersStream, (users) {
       _syncUsersToControllers(users);
       _updateLastSyncTime('users');
     });

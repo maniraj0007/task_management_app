@@ -408,4 +408,27 @@ class AnalyticsController extends GetxController {
       _isLoading.value = false;
     }
   }
+
+  // ==================== DATA UPDATE METHODS ====================
+  
+  /// Update task data for analytics
+  void updateTaskData(List<dynamic> tasks) {
+    // Update analytics with new task data
+    // This method is called by StateManagementService
+    refreshDashboard();
+  }
+  
+  /// Update team data for analytics
+  void updateTeamData(List<dynamic> teams) {
+    // Update analytics with new team data
+    // This method is called by StateManagementService
+    refreshDashboard();
+  }
+  
+  /// Update project data for analytics
+  void updateProjectData(List<dynamic> projects) {
+    // Update analytics with new project data
+    // This method is called by StateManagementService
+    refreshDashboard();
+  }
 }
