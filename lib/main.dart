@@ -10,6 +10,7 @@ import 'core/services/performance_service.dart';
 import 'core/services/data_sync_service.dart';
 import 'core/services/state_management_service.dart';
 import 'core/themes/app_theme.dart';
+import 'core/themes/theme_controller.dart';
 import 'modules/auth/services/user_service.dart';
 import 'modules/auth/services/auth_service.dart';
 import 'modules/tasks/services/task_service.dart';
@@ -74,7 +75,7 @@ Future<void> _initializeServices() async {
   await Get.find<SearchService>().onInit();
   await Get.find<NotificationService>().onInit();
   await Get.find<StateManagementService>().onInit();
-  await Get.find<ThemeController>().onInit();
+  Get.find<ThemeController>().onInit();
 }
 
 /// Main application widget

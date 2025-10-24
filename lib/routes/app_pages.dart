@@ -1,6 +1,14 @@
 import 'package:get/get.dart';
 import 'app_routes.dart';
 
+// Import bindings
+import '../modules/splash/bindings/splash_binding.dart';
+import '../modules/onboarding/bindings/onboarding_binding.dart';
+import '../modules/auth/bindings/auth_binding.dart';
+
+// Import views
+import '../modules/onboarding/views/screens/onboarding_screen.dart';
+
 // Import actual screen implementations
 import '../modules/auth/views/screens/login_screen.dart';
 import '../modules/auth/views/screens/register_screen.dart';
