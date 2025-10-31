@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart' hide Response;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import '../constants/app_constants.dart';
@@ -11,7 +11,7 @@ import 'storage_service.dart';
 class NetworkService extends GetxService {
   static NetworkService get instance => Get.find<NetworkService>();
   
-  late final Dio _dio;
+  late final dio.Dio _dio;
   late final Connectivity _connectivity;
   
   final RxBool _isConnected = true.obs;
@@ -30,7 +30,7 @@ class NetworkService extends GetxService {
       _connectivity = Connectivity();
       
       // Initialize Dio with base configuration
-      _dio = Dio(BaseOptions(
+      _dio = dio.Dio(dio.BaseOptions(
         baseUrl: AppConstants.baseUrl,
         connectTimeout: Duration(milliseconds: AppConstants.connectionTimeout),
         receiveTimeout: Duration(milliseconds: AppConstants.receiveTimeout),
@@ -61,7 +61,7 @@ class NetworkService extends GetxService {
   /// Setup Dio interceptors for request/response handling
   void _setupInterceptors() {
     // Request interceptor
-    _dio.interceptors.add(InterceptorsWrapper(
+    _dio.interceptors.add(dio.InterceptorsWrapper(
       onRequest: (options, handler) async {
         // Add authentication token if available
         final token = StorageService.instance.getUserToken();
@@ -107,28 +107,28 @@ class NetworkService extends GetxService {
   }
   
   /// Handle Dio errors and convert to custom exceptions
-  Future<DioException> _handleDioError(DioException error) async {
+  Future<dio.DioException> _handleDioError(dio.DioException error) async {
     String message;
     
     switch (error.type) {
-      case DioExceptionType.connectionTimeout:
-      case DioExceptionType.sendTimeout:
-      case DioExceptionType.receiveTimeout:
+      case dio.DioExceptionType.connectionTimeout:
+      case dio.DioExceptionType.sendTimeout:
+      case dio.DioExceptionType.receiveTimeout:
         message = 'Connection timeout. Please check your internet connection.';
         break;
-      case DioExceptionType.badResponse:
+      case dio.DioExceptionType.badResponse:
         message = _handleHttpError(error.response?.statusCode, error.response?.data);
         break;
-      case DioExceptionType.cancel:
+      case dio.DioExceptionType.cancel:
         message = 'Request was cancelled.';
         break;
-      case DioExceptionType.connectionError:
+      case dio.DioExceptionType.connectionError:
         message = 'Connection error. Please check your internet connection.';
         break;
-      case DioExceptionType.badCertificate:
+      case dio.DioExceptionType.badCertificate:
         message = 'Certificate error. Please check your connection security.';
         break;
-      case DioExceptionType.unknown:
+      case dio.DioExceptionType.unknown:
       default:
         message = 'An unexpected network error occurred.';
         break;
@@ -211,11 +211,11 @@ class NetworkService extends GetxService {
   // ==================== HTTP METHODS ====================
   
   /// GET request
-  Future<Response<T>> get<T>(
+  Future<dio.Response<T>> get<T>(
     String path, {
     Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
+    dio.Options? options,
+    dio.CancelToken? cancelToken,
   }) async {
     await _ensureConnectivity();
     
@@ -233,12 +233,12 @@ class NetworkService extends GetxService {
   }
   
   /// POST request
-  Future<Response<T>> post<T>(
+  Future<dio.Response<T>> post<T>(
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
+    dio.Options? options,
+    dio.CancelToken? cancelToken,
   }) async {
     await _ensureConnectivity();
     
@@ -257,12 +257,12 @@ class NetworkService extends GetxService {
   }
   
   /// PUT request
-  Future<Response<T>> put<T>(
+  Future<dio.Response<T>> put<T>(
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
+    dio.Options? options,
+    dio.CancelToken? cancelToken,
   }) async {
     await _ensureConnectivity();
     
@@ -281,12 +281,12 @@ class NetworkService extends GetxService {
   }
   
   /// PATCH request
-  Future<Response<T>> patch<T>(
+  Future<dio.Response<T>> patch<T>(
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
+    dio.Options? options,
+    dio.CancelToken? cancelToken,
   }) async {
     await _ensureConnectivity();
     
@@ -305,12 +305,12 @@ class NetworkService extends GetxService {
   }
   
   /// DELETE request
-  Future<Response<T>> delete<T>(
+  Future<dio.Response<T>> delete<T>(
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
+    dio.Options? options,
+    dio.CancelToken? cancelToken,
   }) async {
     await _ensureConnectivity();
     
@@ -329,20 +329,20 @@ class NetworkService extends GetxService {
   }
   
   /// Upload file
-  Future<Response<T>> uploadFile<T>(
+  Future<dio.Response<T>> uploadFile<T>(
     String path,
     File file, {
     String fieldName = 'file',
     Map<String, dynamic>? additionalData,
-    ProgressCallback? onSendProgress,
-    CancelToken? cancelToken,
+    dio.ProgressCallback? onSendProgress,
+    dio.CancelToken? cancelToken,
   }) async {
     await _ensureConnectivity();
     
     try {
       final fileName = file.path.split('/').last;
-      final formData = FormData.fromMap({
-        fieldName: await MultipartFile.fromFile(file.path, filename: fileName),
+      final formData = dio.FormData.fromMap({
+        fieldName: await dio.MultipartFile.fromFile(file.path, filename: fileName),
         ...?additionalData,
       });
       
@@ -360,11 +360,11 @@ class NetworkService extends GetxService {
   }
   
   /// Download file
-  Future<Response> downloadFile(
+  Future<dio.Response> downloadFile(
     String url,
     String savePath, {
-    ProgressCallback? onReceiveProgress,
-    CancelToken? cancelToken,
+    dio.ProgressCallback? onReceiveProgress,
+    dio.CancelToken? cancelToken,
   }) async {
     await _ensureConnectivity();
     
@@ -429,7 +429,7 @@ class NetworkService extends GetxService {
 }
 
 /// Retry interceptor for failed requests
-class RetryInterceptor extends Interceptor {
+class RetryInterceptor extends dio.Interceptor {
   final int maxRetries;
   final Duration retryDelay;
   
@@ -439,7 +439,7 @@ class RetryInterceptor extends Interceptor {
   });
   
   @override
-  void onError(DioException err, ErrorInterceptorHandler handler) async {
+  void onError(dio.DioException err, dio.ErrorInterceptorHandler handler) async {
     if (_shouldRetry(err) && err.requestOptions.extra['retryCount'] == null) {
       err.requestOptions.extra['retryCount'] = 0;
     }
@@ -464,11 +464,11 @@ class RetryInterceptor extends Interceptor {
     handler.next(err);
   }
   
-  bool _shouldRetry(DioException err) {
-    return err.type == DioExceptionType.connectionTimeout ||
-           err.type == DioExceptionType.sendTimeout ||
-           err.type == DioExceptionType.receiveTimeout ||
-           err.type == DioExceptionType.connectionError ||
+  bool _shouldRetry(dio.DioException err) {
+    return err.type == dio.DioExceptionType.connectionTimeout ||
+           err.type == dio.DioExceptionType.sendTimeout ||
+           err.type == dio.DioExceptionType.receiveTimeout ||
+           err.type == dio.DioExceptionType.connectionError ||
            (err.response?.statusCode != null && err.response!.statusCode! >= 500);
   }
 }
