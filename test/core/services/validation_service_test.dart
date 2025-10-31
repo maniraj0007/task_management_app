@@ -60,7 +60,7 @@ void main() {
           'StrongPass123!',
           'MySecure@Password1',
           'Complex#Pass2023',
-          'Secure$123Password',
+          'Secure\$123Password',
         ];
 
         for (final password in strongPasswords) {
