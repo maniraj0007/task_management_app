@@ -36,8 +36,9 @@ class AnalyticsController extends GetxController {
   /// Setup service listener
   void _setupServiceListener() {
     // Listen to service state changes
-    ever(_analyticsService._dashboardMetrics, (_) => update());
-    ever(_analyticsService._isLoading, (loading) => _isLoading.value = loading);
+    // Note: Using public getters instead of private properties
+    // TODO: Implement proper reactive listeners when service exposes reactive streams
+    _refreshDashboard();
   }
 
   // ==================== DASHBOARD ACTIONS ====================
