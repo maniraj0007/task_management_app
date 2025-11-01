@@ -190,6 +190,11 @@ class UserModel {
     );
   }
 
+  /// Create from Map with document ID (for Firestore queries)
+  factory UserModel.fromMap(Map<String, dynamic> data, String documentId) {
+    return UserModel.fromJson({...data, 'id': documentId});
+  }
+
   /// Create from Firebase Auth User
   factory UserModel.fromFirebaseUser({
     required String uid,
