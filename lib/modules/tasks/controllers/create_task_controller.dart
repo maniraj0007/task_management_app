@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/enums/task_enums.dart';
 import '../models/task_model.dart';
 import '../services/task_service.dart';
 
@@ -17,7 +18,7 @@ class CreateTaskController extends GetxController {
   final Rx<TaskPriority> _selectedPriority = TaskPriority.medium.obs;
   final Rx<TaskStatus> _selectedStatus = TaskStatus.todo.obs;
   final Rx<DateTime?> _selectedDueDate = Rx<DateTime?>(null);
-  final RxString _selectedCategory = ''.obs;
+  final Rx<TaskCategory> _selectedCategory = TaskCategory.personal.obs;
   final RxList<String> _assignedUsers = <String>[].obs;
   final RxString _taskId = ''.obs;
   
@@ -30,7 +31,7 @@ class CreateTaskController extends GetxController {
   TaskPriority get selectedPriority => _selectedPriority.value;
   TaskStatus get selectedStatus => _selectedStatus.value;
   DateTime? get selectedDueDate => _selectedDueDate.value;
-  String get selectedCategory => _selectedCategory.value;
+  TaskCategory get selectedCategory => _selectedCategory.value;
   List<String> get assignedUsers => _assignedUsers;
   String get taskId => _taskId.value;
   
@@ -83,7 +84,7 @@ class CreateTaskController extends GetxController {
         _selectedStatus.value = task.status;
         _selectedDueDate.value = task.dueDate;
         _selectedCategory.value = task.category;
-        _assignedUsers.assignAll(task.assignedTo);
+        _assignedUsers.assignAll(task.assignedUsers);
       }
     } catch (e) {
       Get.snackbar(
@@ -112,7 +113,7 @@ class CreateTaskController extends GetxController {
   }
   
   /// Update selected category
-  void updateCategory(String category) {
+  void updateCategory(TaskCategory category) {
     _selectedCategory.value = category;
   }
   
@@ -195,24 +196,19 @@ class CreateTaskController extends GetxController {
         description: descriptionController.text.trim(),
         priority: _selectedPriority.value,
         status: _selectedStatus.value,
-        dueDate: _selectedDueDate.value,
         category: _selectedCategory.value,
-        assignedTo: List.from(_assignedUsers),
+        assignmentType: TaskAssignmentType.selfAssigned,
+        recurrence: TaskRecurrence.none,
+        visibility: TaskVisibility.private,
+        createdBy: '', // Will be set by service
+        assignedUsers: List.from(_assignedUsers),
+        dueDate: _selectedDueDate.value,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
-        createdBy: '', // Will be set by service
-        tags: [],
-        attachments: [],
-        comments: [],
-        subtasks: [],
-        dependencies: [],
-        estimatedHours: null,
-        actualHours: null,
-        completedAt: null,
       );
       
       if (_isEditMode.value) {
-        await _taskService.updateTask(_taskId.value, taskData);
+        await _taskService.updateTask(_taskId.value, taskData.toJson());
         Get.snackbar(
           'Success',
           'Task updated successfully',
@@ -253,13 +249,15 @@ class CreateTaskController extends GetxController {
     _selectedPriority.value = TaskPriority.medium;
     _selectedStatus.value = TaskStatus.todo;
     _selectedDueDate.value = null;
-    _selectedCategory.value = '';
+    _selectedCategory.value = TaskCategory.personal;
     _assignedUsers.clear();
   }
   
   /// Get priority display name
   String getPriorityDisplayName(TaskPriority priority) {
     switch (priority) {
+      case TaskPriority.urgent:
+        return 'Urgent Priority';
       case TaskPriority.high:
         return 'High Priority';
       case TaskPriority.medium:
@@ -288,6 +286,8 @@ class CreateTaskController extends GetxController {
   /// Get priority color
   Color getPriorityColor(TaskPriority priority) {
     switch (priority) {
+      case TaskPriority.urgent:
+        return Colors.red.shade900;
       case TaskPriority.high:
         return Colors.red;
       case TaskPriority.medium:
