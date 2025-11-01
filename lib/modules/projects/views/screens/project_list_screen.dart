@@ -14,7 +14,7 @@ class ProjectListScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () => Get.toNamed('/projects/templates'),
-            icon: const Icon(Icons.template_outlined),
+            icon: const Icon(Icons.dashboard_outlined),
           ),
           IconButton(
             onPressed: () => Get.toNamed('/search'),

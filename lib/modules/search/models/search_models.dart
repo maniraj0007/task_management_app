@@ -102,6 +102,9 @@ class SearchResultModel {
     );
   }
 
+  /// Backward compatibility getter for lastModified
+  DateTime? get lastModified => updatedAt;
+
   /// Factory methods for different result types
 
   /// Create task search result
