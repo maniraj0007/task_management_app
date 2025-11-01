@@ -49,6 +49,9 @@ class AppRoutes {
   /// Create new task screen
   static const String createTask = '/tasks/create';
   
+  /// Alias for createTask (backward compatibility)
+  static const String taskCreate = createTask;
+  
   /// Edit task screen (requires task ID parameter)
   static const String editTask = '/tasks/edit';
   
@@ -71,6 +74,9 @@ class AppRoutes {
   
   /// Create new team screen
   static const String createTeam = '/teams/create';
+  
+  /// Alias for createTeam (backward compatibility)
+  static const String teamCreate = createTeam;
   
   /// Edit team screen (requires team ID parameter)
   static const String editTeam = '/teams/edit';

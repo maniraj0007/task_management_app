@@ -120,10 +120,10 @@ class ForgotPasswordScreen extends GetView<AuthController> {
           // Send Reset Link Button
           Obx(() => AuthButton(
             text: 'Send Reset Link',
-            onPressed: controller.isLoading.value 
+            onPressed: controller.isLoading 
                 ? null 
                 : () => _handlePasswordReset(formKey, emailController),
-            isLoading: controller.isLoading.value,
+            isLoading: controller.isLoading,
           )),
           
           const SizedBox(height: AppDimensions.paddingMedium),

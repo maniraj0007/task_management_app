@@ -172,8 +172,8 @@ class LoginScreen extends GetView<AuthController> {
           // Login Button
           Obx(() => AuthButton(
             text: 'Sign In',
-            onPressed: controller.isLoading.value ? null : controller.login,
-            isLoading: controller.isLoading.value,
+            onPressed: controller.isLoading ? null : controller.login,
+            isLoading: controller.isLoading,
           )),
         ],
       ),

@@ -60,7 +60,7 @@ class SocialLoginButtons extends GetView<AuthController> {
       width: double.infinity,
       height: 56,
       child: ElevatedButton(
-        onPressed: controller.isLoading.value ? null : onPressed,
+        onPressed: controller.isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
@@ -75,7 +75,7 @@ class SocialLoginButtons extends GetView<AuthController> {
           disabledBackgroundColor: backgroundColor.withOpacity(0.6),
           disabledForegroundColor: textColor.withOpacity(0.6),
         ),
-        child: controller.isLoading.value
+        child: controller.isLoading
             ? SizedBox(
                 width: 24,
                 height: 24,

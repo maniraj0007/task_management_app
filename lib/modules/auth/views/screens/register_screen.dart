@@ -219,8 +219,8 @@ class RegisterScreen extends GetView<AuthController> {
           // Register Button
           Obx(() => AuthButton(
             text: 'Create Account',
-            onPressed: controller.isLoading.value ? null : controller.register,
-            isLoading: controller.isLoading.value,
+            onPressed: controller.isLoading ? null : controller.register,
+            isLoading: controller.isLoading,
           )),
         ],
       ),
