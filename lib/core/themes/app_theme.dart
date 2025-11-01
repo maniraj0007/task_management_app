@@ -6,77 +6,7 @@ import '../services/storage_service.dart';
 import 'light_theme.dart';
 import 'dark_theme.dart';
 
-/// Theme controller for managing app themes
-/// Supports light, dark, and system theme modes
-class ThemeController extends GetxController {
-  static ThemeController get instance => Get.find<ThemeController>();
-  
-  final RxString _themeMode = 'system'.obs;
-  String get themeMode => _themeMode.value;
-  
-  final RxBool _isDarkMode = false.obs;
-  bool get isDarkMode => _isDarkMode.value;
-  
-  @override
-  void onInit() {
-    super.onInit();
-    _loadThemeFromStorage();
-    _updateThemeBasedOnSystem();
-  }
-  
-  /// Load theme preference from storage
-  void _loadThemeFromStorage() {
-    final savedTheme = StorageService.instance.getThemeMode() ?? 'system';
-    _themeMode.value = savedTheme;
-    _updateThemeMode();
-  }
-  
-  /// Update theme based on system settings
-  void _updateThemeBasedOnSystem() {
-    if (_themeMode.value == 'system') {
-      final brightness = Get.context?.mediaQuery.platformBrightness ?? Brightness.light;
-      _isDarkMode.value = brightness == Brightness.dark;
-    }
-  }
-  
-  /// Set theme mode
-  Future<void> setThemeMode(String mode) async {
-    _themeMode.value = mode;
-    await StorageService.instance.setThemeMode(mode);
-    _updateThemeMode();
-  }
-  
-  /// Update theme mode based on current setting
-  void _updateThemeMode() {
-    switch (_themeMode.value) {
-      case 'light':
-        _isDarkMode.value = false;
-        Get.changeThemeMode(ThemeMode.light);
-        break;
-      case 'dark':
-        _isDarkMode.value = true;
-        Get.changeThemeMode(ThemeMode.dark);
-        break;
-      case 'system':
-      default:
-        Get.changeThemeMode(ThemeMode.system);
-        _updateThemeBasedOnSystem();
-        break;
-    }
-  }
-  
-  /// Toggle between light and dark theme
-  Future<void> toggleTheme() async {
-    final newMode = _isDarkMode.value ? 'light' : 'dark';
-    await setThemeMode(newMode);
-  }
-  
-  /// Get current theme data
-  ThemeData get currentTheme => _isDarkMode.value ? AppTheme.darkTheme : AppTheme.lightTheme;
-  
-  /// Get current color scheme
-  ColorScheme get currentColorScheme => currentTheme.colorScheme;
-}
+
 
 /// Main theme configuration class
 class AppTheme {

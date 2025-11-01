@@ -71,9 +71,9 @@ Future<void> _initializeServices() async {
   await Get.find<AuthService>().onInit();
   await Get.find<TaskService>().onInit();
   await Get.find<DataSyncService>().onInit();
-  await Get.find<AnalyticsService>().onInit();
-  await Get.find<SearchService>().onInit();
-  await Get.find<NotificationService>().onInit();
+  Get.find<AnalyticsService>().onInit();
+  Get.find<SearchService>().onInit();
+  Get.find<NotificationService>().onInit();
   await Get.find<StateManagementService>().onInit();
   Get.find<ThemeController>().onInit();
 }
@@ -133,15 +133,7 @@ class TaskMasterApp extends StatelessWidget {
   
   /// Get theme mode based on controller state
   ThemeMode _getThemeMode() {
-    switch (_themeController.themeMode) {
-      case 'light':
-        return ThemeMode.light;
-      case 'dark':
-        return ThemeMode.dark;
-      case 'system':
-      default:
-        return ThemeMode.system;
-    }
+    return _themeController.themeMode;
   }
   
   /// Custom log writer for GetX
