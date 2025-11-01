@@ -27,6 +27,7 @@ class AuthController extends GetxController {
   final RxBool isPasswordHidden = true.obs;
   final RxBool isConfirmPasswordHidden = true.obs;
   final RxBool rememberMe = false.obs;
+  final RxBool acceptTerms = false.obs;
   
   // Getters
   bool get isLoading => _isLoading.value;
@@ -60,6 +61,19 @@ class AuthController extends GetxController {
     }
     if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(lastName)) {
       return 'Last name can only contain letters and spaces';
+    }
+    return null;
+  }
+  
+  String? get validateConfirmPassword {
+    final confirmPassword = confirmPasswordController.text.trim();
+    final password = passwordController.text.trim();
+    
+    if (confirmPassword.isEmpty) {
+      return 'Please confirm your password';
+    }
+    if (confirmPassword != password) {
+      return 'Passwords do not match';
     }
     return null;
   }
@@ -148,6 +162,11 @@ class AuthController extends GetxController {
   /// Toggle password visibility
   void togglePasswordVisibility() {
     isPasswordHidden.value = !isPasswordHidden.value;
+  }
+  
+  /// Toggle confirm password visibility
+  void toggleConfirmPasswordVisibility() {
+    isConfirmPasswordHidden.value = !isConfirmPasswordHidden.value;
   }
   
   /// Validate email field
