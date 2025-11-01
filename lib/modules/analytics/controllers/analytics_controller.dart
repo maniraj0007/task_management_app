@@ -431,4 +431,11 @@ class AnalyticsController extends GetxController {
     // This method is called by StateManagementService
     refreshDashboard();
   }
+  
+  /// Update user data for analytics
+  void updateUserData(List<dynamic> users) {
+    // Update analytics with new user data
+    // This method is called by StateManagementService
+    refreshDashboard();
+  }
 }

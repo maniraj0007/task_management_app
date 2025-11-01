@@ -410,4 +410,11 @@ class SearchController extends GetxController {
     // This method is called by StateManagementService
     _searchService.updateProjectIndex(projects);
   }
+  
+  /// Update user search data
+  void updateUserSearchData(List<dynamic> users) {
+    // Update search index with new user data
+    // This method is called by StateManagementService
+    _searchService.updateUserIndex(users);
+  }
 }

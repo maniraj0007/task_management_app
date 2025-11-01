@@ -156,7 +156,7 @@ class StateManagementService extends GetxService {
   /// Sync notifications to relevant controllers
   void _syncNotificationsToControllers(List<dynamic> notifications) {
     // Update notification controller
-    _notificationController?.updateNotifications(notifications);
+    _notificationController?.updateNotificationData(notifications);
 
     // Update navigation badge counts
     _updateNavigationBadges();
