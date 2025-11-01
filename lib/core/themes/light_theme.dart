@@ -106,7 +106,7 @@ class LightTheme {
     ),
     
     // Buttons
-    elevatedButtonTheme: AppTheme.elevatedButtonTheme.copyWith(
+    elevatedButtonTheme: ElevatedButtonThemeData(
       style: AppTheme.elevatedButtonTheme.style?.copyWith(
         backgroundColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.disabled)) {
@@ -124,7 +124,7 @@ class LightTheme {
       ),
     ),
     
-    outlinedButtonTheme: AppTheme.outlinedButtonTheme.copyWith(
+    outlinedButtonTheme: OutlinedButtonThemeData(
       style: AppTheme.outlinedButtonTheme.style?.copyWith(
         foregroundColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.disabled)) {
@@ -142,7 +142,7 @@ class LightTheme {
       ),
     ),
     
-    textButtonTheme: AppTheme.textButtonTheme.copyWith(
+    textButtonTheme: TextButtonThemeData(
       style: AppTheme.textButtonTheme.style?.copyWith(
         foregroundColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.disabled)) {
