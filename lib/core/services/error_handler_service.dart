@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import '../constants/app_constants.dart';
 import '../constants/strings.dart';
 
 /// Centralized error handling service for the application
@@ -29,7 +29,7 @@ class ErrorHandlerService extends GetxService {
         lineLength: 120,
         colors: true,
         printEmojis: true,
-        printTime: true,
+        dateTimeFormat: DateTimeFormat.onlyTimeAndSinceStart,
       ),
       level: kDebugMode ? Level.debug : Level.info,
     );
@@ -69,16 +69,16 @@ class ErrorHandlerService extends GetxService {
     // Log error based on severity
     switch (severity) {
       case ErrorSeverity.low:
-        _logger.i(errorInfo.message, errorInfo.error, errorInfo.stackTrace);
+        _logger.i(errorInfo.message, error: errorInfo.error, stackTrace: errorInfo.stackTrace);
         break;
       case ErrorSeverity.medium:
-        _logger.w(errorInfo.message, errorInfo.error, errorInfo.stackTrace);
+        _logger.w(errorInfo.message, error: errorInfo.error, stackTrace: errorInfo.stackTrace);
         break;
       case ErrorSeverity.high:
-        _logger.e(errorInfo.message, errorInfo.error, errorInfo.stackTrace);
+        _logger.e(errorInfo.message, error: errorInfo.error, stackTrace: errorInfo.stackTrace);
         break;
       case ErrorSeverity.critical:
-        _logger.f(errorInfo.message, errorInfo.error, errorInfo.stackTrace);
+        _logger.f(errorInfo.message, error: errorInfo.error, stackTrace: errorInfo.stackTrace);
         break;
     }
     
@@ -202,7 +202,7 @@ class ErrorHandlerService extends GetxService {
   void logEvent(String event, {Map<String, dynamic>? parameters}) {
     try {
       _crashlytics.log('Event: $event ${parameters != null ? '- $parameters' : ''}');
-      _logger.i('Event logged: $event', null, null);
+      _logger.i('Event logged: $event');
     } catch (e) {
       _logger.e('Failed to log event: $e');
     }
@@ -211,20 +211,20 @@ class ErrorHandlerService extends GetxService {
   /// Debug logging methods
   void logDebug(String message, {dynamic data}) {
     if (kDebugMode) {
-      _logger.d(message, data, null);
+      _logger.d(message, error: data);
     }
   }
   
   void logInfo(String message, {dynamic data}) {
-    _logger.i(message, data, null);
+    _logger.i(message, error: data);
   }
   
   void logWarning(String message, {dynamic data}) {
-    _logger.w(message, data, null);
+    _logger.w(message, error: data);
   }
   
   void logError(String message, {dynamic error, StackTrace? stackTrace}) {
-    _logger.e(message, error, stackTrace);
+    _logger.e(message, error: error, stackTrace: stackTrace);
   }
 }
 
