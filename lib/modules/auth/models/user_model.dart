@@ -57,6 +57,9 @@ class UserModel {
     return '$first$last';
   }
 
+  /// Backward compatibility getter for photoURL (capital URL)
+  String? get photoURL => photoUrl;
+
   /// Check if user has a specific permission
   bool hasPermission(String permission) {
     switch (permission) {

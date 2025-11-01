@@ -105,6 +105,7 @@ class AppColors {
   static const Color grey900 = Color(0xFF212121);
   
   // Shadow Colors
+  static const Color shadow = shadowMedium; // Default shadow color
   static const Color shadowLight = Color(0x1F000000);
   static const Color shadowMedium = Color(0x3D000000);
   static const Color shadowDark = Color(0x66000000);
