@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 class AppColors {
   // Primary Brand Colors
   static const Color primary = Color(0xFF1976D2); // Blue 700
+  
+  /// Alias for primary color (backward compatibility)
+  static const Color primaryColor = primary;
   static const Color primaryContainer = Color(0xFFE3F2FD); // Blue 50
   static const Color onPrimary = Color(0xFFFFFFFF);
   static const Color onPrimaryContainer = Color(0xFF0D47A1);

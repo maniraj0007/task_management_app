@@ -35,6 +35,9 @@ class AppRoutes {
   /// User profile screen
   static const String profile = '/profile';
   
+  /// Alias for profile (backward compatibility)
+  static const String userProfile = profile;
+  
   /// Settings screen
   static const String settings = '/settings';
   
@@ -97,6 +100,9 @@ class AppRoutes {
   
   /// Create new project screen
   static const String createProject = '/projects/create';
+  
+  /// Alias for createProject (backward compatibility)
+  static const String projectCreate = createProject;
   
   /// Edit project screen (requires project ID parameter)
   static const String editProject = '/projects/edit';
