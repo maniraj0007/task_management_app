@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../services/admin_service.dart';
 import '../../auth/models/user_model.dart';
 import '../../../core/constants/app_constants.dart';
+import '../../../core/enums/user_roles.dart';
 
 /// User Management Controller
 /// Manages user-related admin operations using GetX
@@ -134,13 +135,13 @@ class UserManagementController extends GetxController {
       // Update local user data
       final userIndex = users.indexWhere((user) => user.id == userId);
       if (userIndex != -1) {
-        final updatedUser = users[userIndex].copyWith(role: newRole);
+        final updatedUser = users[userIndex].copyWith(role: UserRole.fromString(newRole));
         users[userIndex] = updatedUser;
       }
 
       // Update selected user if it's the same
       if (selectedUser.value?.id == userId) {
-        selectedUser.value = selectedUser.value?.copyWith(role: newRole);
+        selectedUser.value = selectedUser.value?.copyWith(role: UserRole.fromString(newRole));
       }
 
       successMessage.value = 'User role updated successfully';
@@ -276,7 +277,7 @@ class UserManagementController extends GetxController {
       for (final userId in selectedUserIds) {
         final userIndex = users.indexWhere((user) => user.id == userId);
         if (userIndex != -1) {
-          final updatedUser = users[userIndex].copyWith(role: newRole);
+          final updatedUser = users[userIndex].copyWith(role: UserRole.fromString(newRole));
           users[userIndex] = updatedUser;
         }
       }
@@ -432,7 +433,7 @@ class UserManagementController extends GetxController {
   Map<String, int> get roleDistribution {
     final distribution = <String, int>{};
     for (final user in users) {
-      distribution[user.role] = (distribution[user.role] ?? 0) + 1;
+      distribution[user.role.value] = (distribution[user.role.value] ?? 0) + 1;
     }
     return distribution;
   }
