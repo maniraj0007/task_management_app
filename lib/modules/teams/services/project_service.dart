@@ -85,7 +85,7 @@ class ProjectService extends GetxService {
       return createdProject;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'ProjectService.createProject');
+      _errorHandler.logError('ProjectService.createProject', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -112,7 +112,7 @@ class ProjectService extends GetxService {
       return project;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'ProjectService.getProjectById');
+      _errorHandler.logError('ProjectService.getProjectById', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -158,7 +158,7 @@ class ProjectService extends GetxService {
       return updatedProject;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'ProjectService.updateProject');
+      _errorHandler.logError('ProjectService.updateProject', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -224,7 +224,7 @@ class ProjectService extends GetxService {
       return true;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'ProjectService.deleteProject');
+      _errorHandler.logError('ProjectService.deleteProject', error: e, stackTrace: stackTrace);
       return false;
     }
   }
@@ -243,7 +243,7 @@ class ProjectService extends GetxService {
       return updatedProject != null;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'ProjectService.archiveProject');
+      _errorHandler.logError('ProjectService.archiveProject', error: e, stackTrace: stackTrace);
       return false;
     }
   }
@@ -306,7 +306,7 @@ class ProjectService extends GetxService {
       return updatedProject;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'ProjectService.updateProjectStatus');
+      _errorHandler.logError('ProjectService.updateProjectStatus', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -373,7 +373,7 @@ class ProjectService extends GetxService {
       return true;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'ProjectService.addProjectMember');
+      _errorHandler.logError('ProjectService.addProjectMember', error: e, stackTrace: stackTrace);
       return false;
     }
   }
@@ -421,7 +421,7 @@ class ProjectService extends GetxService {
       return true;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'ProjectService.removeProjectMember');
+      _errorHandler.logError('ProjectService.removeProjectMember', error: e, stackTrace: stackTrace);
       return false;
     }
   }
@@ -467,7 +467,7 @@ class ProjectService extends GetxService {
       return projects;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'ProjectService.getTeamProjects');
+      _errorHandler.logError('ProjectService.getTeamProjects', error: e, stackTrace: stackTrace);
       return [];
     }
   }
@@ -519,7 +519,7 @@ class ProjectService extends GetxService {
       return projects.take(limit).toList();
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'ProjectService.getUserProjects');
+      _errorHandler.logError('ProjectService.getUserProjects', error: e, stackTrace: stackTrace);
       return [];
     }
   }
@@ -551,7 +551,7 @@ class ProjectService extends GetxService {
       }).toList();
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'ProjectService.searchProjects');
+      _errorHandler.logError('ProjectService.searchProjects', error: e, stackTrace: stackTrace);
       return [];
     }
   }
@@ -579,7 +579,7 @@ class ProjectService extends GetxService {
       }).toList();
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'ProjectService.getOverdueProjects');
+      _errorHandler.logError('ProjectService.getOverdueProjects', error: e, stackTrace: stackTrace);
       return [];
     }
   }
@@ -605,7 +605,7 @@ class ProjectService extends GetxService {
           }
         },
         onError: (error) {
-          _errorHandler.logError(error, null, context: 'ProjectService.listenToProject');
+          _errorHandler.logError('ProjectService.listenToProject', error: error);
           _projectStreamControllers[projectId]?.addError(error);
         },
       );
@@ -637,7 +637,7 @@ class ProjectService extends GetxService {
           _teamProjectsStreamControllers[teamId]?.add(projects);
         },
         onError: (error) {
-          _errorHandler.logError(error, null, context: 'ProjectService.listenToTeamProjects');
+          _errorHandler.logError('ProjectService.listenToTeamProjects', error: error);
           _teamProjectsStreamControllers[teamId]?.addError(error);
         },
       );
@@ -733,7 +733,7 @@ class ProjectService extends GetxService {
       });
     } catch (e) {
       // Log activity errors shouldn't break the main operation
-      _errorHandler.logError(e, null, context: 'ProjectService._logProjectActivity');
+      _errorHandler.logError('ProjectService._logProjectActivity', error: e);
     }
   }
 }
