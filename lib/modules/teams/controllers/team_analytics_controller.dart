@@ -104,6 +104,78 @@ class TeamAnalyticsController extends GetxController {
     return completedTasks / totalTasks;
   }
   
+  // ==================== UI GETTERS ====================
+  
+  /// Tasks completed count
+  int get tasksCompleted => _teamMetrics['completedTasks'] ?? 0;
+  
+  /// Tasks completed percentage change
+  double get tasksCompletedChange => _teamMetrics['tasksCompletedChange'] ?? 0.0;
+  
+  /// Active projects count
+  int get activeProjects => _projectMetrics['activeProjects'] ?? 0;
+  
+  /// Active projects percentage change
+  double get activeProjectsChange => _projectMetrics['activeProjectsChange'] ?? 0.0;
+  
+  /// Team members count
+  int get teamMembers => _teamMetrics['totalMembers'] ?? 0;
+  
+  /// Team members percentage change
+  double get teamMembersChange => _teamMetrics['teamMembersChange'] ?? 0.0;
+  
+  /// Average response time in hours
+  double get avgResponseTime => _performanceMetrics['avgResponseTime'] ?? 0.0;
+  
+  /// Average response time percentage change
+  double get avgResponseTimeChange => _performanceMetrics['avgResponseTimeChange'] ?? 0.0;
+  
+  // ==================== CHART DATA GETTERS ====================
+  
+  /// Activity data for charts
+  List<Map<String, dynamic>> get activityData => _chartData.where((data) => data['type'] == 'activity').toList();
+  
+  /// Task distribution data for charts
+  List<Map<String, dynamic>> get taskDistributionData => _chartData.where((data) => data['type'] == 'taskDistribution').toList();
+  
+  /// Performance trend data for charts
+  List<Map<String, dynamic>> get performanceTrendData => _chartData.where((data) => data['type'] == 'performanceTrend').toList();
+  
+  /// Time distribution data for charts
+  List<Map<String, dynamic>> get timeDistributionData => _chartData.where((data) => data['type'] == 'timeDistribution').toList();
+  
+  // ==================== ADDITIONAL UI GETTERS ====================
+  
+  /// Recent achievements list
+  List<Map<String, dynamic>> get recentAchievements => _teamMetrics['recentAchievements'] ?? [];
+  
+  /// Member performance data
+  List<Map<String, dynamic>> get memberPerformance => _memberMetrics['performanceData'] ?? [];
+  
+  /// Focus time in hours
+  double get focusTime => _performanceMetrics['focusTime'] ?? 0.0;
+  
+  /// Meeting time in hours
+  double get meetingTime => _performanceMetrics['meetingTime'] ?? 0.0;
+  
+  /// Collaboration time in hours
+  double get collaborationTime => _performanceMetrics['collaborationTime'] ?? 0.0;
+  
+  /// Break time in hours
+  double get breakTime => _performanceMetrics['breakTime'] ?? 0.0;
+  
+  /// Productivity tips list
+  List<String> get productivityTips => _performanceMetrics['productivityTips'] ?? [];
+  
+  /// AI insights list
+  List<Map<String, dynamic>> get aiInsights => _performanceMetrics['aiInsights'] ?? [];
+  
+  /// Recommendations list
+  List<Map<String, dynamic>> get recommendations => _performanceMetrics['recommendations'] ?? [];
+  
+  /// Prediction data for forecasting
+  List<Map<String, dynamic>> get predictionData => _performanceMetrics['predictionData'] ?? [];
+  
   @override
   void onInit() {
     super.onInit();
@@ -159,6 +231,52 @@ class TeamAnalyticsController extends GetxController {
   }
   
   // ==================== ANALYTICS CALCULATION ====================
+  
+  /// Load team analytics for specific team and period
+  Future<void> loadTeamAnalytics(String teamId, String period) async {
+    try {
+      _isLoading.value = true;
+      _clearError();
+      
+      // Set date range based on period
+      _setDateRangeFromPeriod(period);
+      
+      // Load team data if not already loaded
+      if (_teamController.currentTeam?.id != teamId) {
+        await _teamController.loadTeam(teamId);
+      }
+      
+      // Calculate analytics for the loaded team
+      await calculateAnalytics();
+      
+    } catch (e) {
+      _setError('Failed to load team analytics: ${e.toString()}');
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+  
+  /// Set date range based on period string
+  void _setDateRangeFromPeriod(String period) {
+    final now = DateTime.now();
+    switch (period) {
+      case '7d':
+        _startDate.value = now.subtract(const Duration(days: 7));
+        break;
+      case '30d':
+        _startDate.value = now.subtract(const Duration(days: 30));
+        break;
+      case '90d':
+        _startDate.value = now.subtract(const Duration(days: 90));
+        break;
+      case '1y':
+        _startDate.value = now.subtract(const Duration(days: 365));
+        break;
+      default:
+        _startDate.value = now.subtract(const Duration(days: 30));
+    }
+    _endDate.value = now;
+  }
   
   /// Calculate comprehensive team analytics
   Future<void> calculateAnalytics() async {

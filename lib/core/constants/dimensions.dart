@@ -21,6 +21,11 @@ class AppDimensions {
   static const double paddingXL = 32.0;
   static const double paddingXXL = 48.0;
   
+  // Padding aliases for consistency
+  static const double paddingSmall = paddingS;
+  static const double paddingMedium = paddingM;
+  static const double paddingLarge = paddingL;
+  
   // Margin
   static const double marginXS = 4.0;
   static const double marginS = 8.0;
@@ -37,6 +42,10 @@ class AppDimensions {
   static const double radiusXL = 20.0;
   static const double radiusXXL = 28.0;
   static const double radiusCircular = 50.0;
+  
+  // Radius aliases for consistency
+  static const double radiusMedium = radiusM;
+  static const double radiusLarge = radiusL;
   
   // Component Heights
   static const double buttonHeight = 48.0;
