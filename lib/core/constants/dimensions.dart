@@ -49,6 +49,7 @@ class AppDimensions {
   static const double radiusCircular = 50.0;
   
   // Radius aliases for consistency
+  static const double radiusSmall = radiusS; // Small radius alias
   static const double radiusMedium = radiusM;
   static const double radiusLarge = radiusL;
   

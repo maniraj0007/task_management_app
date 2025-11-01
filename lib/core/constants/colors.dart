@@ -85,6 +85,7 @@ class AppColors {
   static const Color transparent = Color(0x00000000);
   
   // Text Colors
+  static const Color textPrimary = onSurface; // Primary text color
   static const Color textSecondary = grey600;
   static const Color onSuccess = white;
   
