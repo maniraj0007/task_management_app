@@ -424,6 +424,15 @@ class ProjectModel {
     };
   }
 
+  /// Create from Firestore document
+  factory ProjectModel.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>?;
+    if (data == null) {
+      throw Exception('Document data is null');
+    }
+    return ProjectModel.fromJson({...data, 'id': doc.id});
+  }
+
   /// Create from JSON (Firestore document)
   factory ProjectModel.fromJson(Map<String, dynamic> json) {
     return ProjectModel(

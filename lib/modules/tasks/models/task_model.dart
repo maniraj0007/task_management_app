@@ -395,6 +395,15 @@ class TaskModel {
     };
   }
 
+  /// Create from Firestore document
+  factory TaskModel.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>?;
+    if (data == null) {
+      throw Exception('Document data is null');
+    }
+    return TaskModel.fromJson({...data, 'id': doc.id});
+  }
+
   /// Create from JSON (Firestore document)
   factory TaskModel.fromJson(Map<String, dynamic> json) {
     return TaskModel(

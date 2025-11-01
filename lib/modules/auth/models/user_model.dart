@@ -157,6 +157,15 @@ class UserModel {
     };
   }
 
+  /// Create from Firestore document
+  factory UserModel.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>?;
+    if (data == null) {
+      throw Exception('Document data is null');
+    }
+    return UserModel.fromJson({...data, 'id': doc.id});
+  }
+
   /// Create from JSON (Firestore document)
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(

@@ -338,6 +338,15 @@ class TeamModel {
     };
   }
 
+  /// Create from Firestore document
+  factory TeamModel.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>?;
+    if (data == null) {
+      throw Exception('Document data is null');
+    }
+    return TeamModel.fromJson({...data, 'id': doc.id});
+  }
+
   /// Create from JSON (Firestore document)
   factory TeamModel.fromJson(Map<String, dynamic> json) {
     return TeamModel(
