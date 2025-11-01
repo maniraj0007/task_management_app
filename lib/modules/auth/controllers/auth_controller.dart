@@ -16,6 +16,7 @@ class AuthController extends GetxController {
   final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
@@ -24,6 +25,7 @@ class AuthController extends GetxController {
   final RxBool _isLoading = false.obs;
   final RxBool _isInitialized = false.obs;
   final RxBool isPasswordHidden = true.obs;
+  final RxBool isConfirmPasswordHidden = true.obs;
   final RxBool rememberMe = false.obs;
   
   // Getters
@@ -32,6 +34,35 @@ class AuthController extends GetxController {
   bool get isLoggedIn => _authService.isLoggedIn;
   bool get isEmailVerified => _authService.isEmailVerified;
   UserModel? get currentUser => _authService.currentUser;
+  
+  // Form validation getters
+  String? get validateFirstName {
+    final firstName = firstNameController.text.trim();
+    if (firstName.isEmpty) {
+      return 'First name is required';
+    }
+    if (firstName.length < 2) {
+      return 'First name must be at least 2 characters';
+    }
+    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(firstName)) {
+      return 'First name can only contain letters and spaces';
+    }
+    return null;
+  }
+  
+  String? get validateLastName {
+    final lastName = lastNameController.text.trim();
+    if (lastName.isEmpty) {
+      return 'Last name is required';
+    }
+    if (lastName.length < 2) {
+      return 'Last name must be at least 2 characters';
+    }
+    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(lastName)) {
+      return 'Last name can only contain letters and spaces';
+    }
+    return null;
+  }
   
   @override
   Future<void> onInit() async {
