@@ -50,6 +50,7 @@ class TaskController extends GetxController {
   List<TaskModel> get pendingTasks => _pendingTasks;
   List<TaskModel> get completedTasks => _completedTasks;
   List<String> get selectedTasks => _selectedTasks;
+  List<TaskModel> get filteredTasks => _myTasks; // Alias for filtered task list
   
   @override
   Future<void> onInit() async {

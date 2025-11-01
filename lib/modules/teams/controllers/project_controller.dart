@@ -103,6 +103,17 @@ class ProjectController extends GetxController {
   int get completedProjects => _userProjects.where((p) => p.isCompleted).length;
   int get overdueProjectsCount => _overdueProjects.length;
   
+  // Backward compatibility aliases
+  int get activeProjectsCount => activeProjects;
+  int get completedProjectsCount => completedProjects;
+  int get totalProjectsCount => totalProjects;
+  
+  // Overall progress calculation
+  double get overallProgress {
+    if (totalProjects == 0) return 0.0;
+    return (completedProjects / totalProjects) * 100;
+  }
+  
   // Filtered projects
   List<ProjectModel> get filteredTeamProjects {
     var projects = _teamProjects.toList();
@@ -120,6 +131,11 @@ class ProjectController extends GetxController {
     }
     
     return projects;
+  }
+  
+  // Filtered active projects
+  List<ProjectModel> get filteredActiveProjects {
+    return _userProjects.where((p) => p.isActive).toList();
   }
   
   @override

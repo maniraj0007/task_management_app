@@ -31,6 +31,7 @@ class AppDimensions {
   static const double paddingMedium = paddingM;
   static const double paddingLarge = paddingL;
   static const double paddingXLarge = paddingXL; // Extra large padding alias
+  static const double paddingExtraLarge = paddingXL; // Alternative alias
   
   // Margin
   static const double marginXS = 4.0;
