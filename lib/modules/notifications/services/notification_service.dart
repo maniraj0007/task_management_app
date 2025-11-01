@@ -22,6 +22,7 @@ class NotificationService extends GetxService {
 
   // Getters
   List<NotificationModel> get notifications => _notifications;
+  RxList<NotificationModel> get notificationsStream => _notifications;
   int get unreadCount => _unreadCount.value;
   bool get isLoading => _isLoading.value;
 

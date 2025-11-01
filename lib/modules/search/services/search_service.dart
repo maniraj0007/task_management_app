@@ -28,9 +28,11 @@ class SearchService extends GetxService {
 
   // Getters
   List<SearchResultModel> get searchResults => _searchResults;
+  RxList<SearchResultModel> get searchResultsStream => _searchResults;
   List<SearchHistoryModel> get searchHistory => _searchHistory;
   List<SearchSuggestionModel> get suggestions => _suggestions;
   bool get isSearching => _isSearching.value;
+  RxBool get isSearchingStream => _isSearching;
   String get lastQuery => _lastQuery.value;
 
   @override

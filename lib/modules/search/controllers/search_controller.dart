@@ -51,11 +51,11 @@ class SearchController extends GetxController {
   /// Setup service listeners
   void _setupServiceListeners() {
     // Listen to search service changes
-    ever(_searchService._searchResults, (results) {
+    ever(_searchService.searchResultsStream, (results) {
       _searchResults.value = List<SearchResultModel>.from(results);
     });
 
-    ever(_searchService._isSearching, (searching) {
+    ever(_searchService.isSearchingStream, (searching) {
       _isSearching.value = searching;
     });
   }

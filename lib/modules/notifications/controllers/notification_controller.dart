@@ -31,7 +31,7 @@ class NotificationController extends GetxController {
   /// Setup notification listener
   void _setupNotificationListener() {
     // Listen to changes in the notification service
-    ever(_notificationService._notifications, (_) => _applyFilters());
+    ever(_notificationService.notificationsStream, (_) => _applyFilters());
   }
 
   // ==================== FILTER OPERATIONS ====================
