@@ -99,7 +99,7 @@ class TeamInvitationService extends GetxService {
       return createdInvitation;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamInvitationService.createInvitation');
+      _errorHandler.logError('TeamInvitationService.createInvitation', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -126,7 +126,7 @@ class TeamInvitationService extends GetxService {
       return invitation;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamInvitationService.getInvitationById');
+      _errorHandler.logError('TeamInvitationService.getInvitationById', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -160,7 +160,7 @@ class TeamInvitationService extends GetxService {
       return invitation;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamInvitationService.getInvitationByToken');
+      _errorHandler.logError('TeamInvitationService.getInvitationByToken', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -237,7 +237,7 @@ class TeamInvitationService extends GetxService {
       return true;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamInvitationService.acceptInvitation');
+      _errorHandler.logError('TeamInvitationService.acceptInvitation', error: e, stackTrace: stackTrace);
       return false;
     }
   }
@@ -282,7 +282,7 @@ class TeamInvitationService extends GetxService {
       return true;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamInvitationService.declineInvitation');
+      _errorHandler.logError('TeamInvitationService.declineInvitation', error: e, stackTrace: stackTrace);
       return false;
     }
   }
@@ -336,7 +336,7 @@ class TeamInvitationService extends GetxService {
       return true;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamInvitationService.cancelInvitation');
+      _errorHandler.logError('TeamInvitationService.cancelInvitation', error: e, stackTrace: stackTrace);
       return false;
     }
   }
@@ -387,7 +387,7 @@ class TeamInvitationService extends GetxService {
       return true;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamInvitationService.sendInvitationReminder');
+      _errorHandler.logError('TeamInvitationService.sendInvitationReminder', error: e, stackTrace: stackTrace);
       return false;
     }
   }
@@ -431,7 +431,7 @@ class TeamInvitationService extends GetxService {
       return invitations;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamInvitationService.getTeamInvitations');
+      _errorHandler.logError('TeamInvitationService.getTeamInvitations', error: e, stackTrace: stackTrace);
       return [];
     }
   }
@@ -473,7 +473,7 @@ class TeamInvitationService extends GetxService {
       return invitations;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamInvitationService.getUserInvitations');
+      _errorHandler.logError('TeamInvitationService.getUserInvitations', error: e, stackTrace: stackTrace);
       return [];
     }
   }
@@ -495,7 +495,7 @@ class TeamInvitationService extends GetxService {
       }).toList();
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamInvitationService.getExpiredInvitations');
+      _errorHandler.logError('TeamInvitationService.getExpiredInvitations', error: e, stackTrace: stackTrace);
       return [];
     }
   }
@@ -524,7 +524,7 @@ class TeamInvitationService extends GetxService {
           _teamInvitationsStreamControllers[teamId]?.add(invitations);
         },
         onError: (error) {
-          _errorHandler.logError(error, null, context: 'TeamInvitationService.listenToTeamInvitations');
+          _errorHandler.logError('TeamInvitationService.listenToTeamInvitations', error: error);
           _teamInvitationsStreamControllers[teamId]?.addError(error);
         },
       );
@@ -556,7 +556,7 @@ class TeamInvitationService extends GetxService {
           _userInvitationsStreamControllers[email]?.add(invitations);
         },
         onError: (error) {
-          _errorHandler.logError(error, null, context: 'TeamInvitationService.listenToUserInvitations');
+          _errorHandler.logError('TeamInvitationService.listenToUserInvitations', error: error);
           _userInvitationsStreamControllers[email]?.addError(error);
         },
       );
@@ -589,7 +589,7 @@ class TeamInvitationService extends GetxService {
       }
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamInvitationService.expireOldInvitations');
+      _errorHandler.logError('TeamInvitationService.expireOldInvitations', error: e, stackTrace: stackTrace);
     }
   }
   
@@ -664,7 +664,7 @@ class TeamInvitationService extends GetxService {
       });
     } catch (e) {
       // Log activity errors shouldn't break the main operation
-      _errorHandler.logError(e, null, context: 'TeamInvitationService._logInvitationActivity');
+      _errorHandler.logError('TeamInvitationService._logInvitationActivity', error: e);
     }
   }
 }
