@@ -88,6 +88,9 @@ class AppColors {
   static const Color textSecondary = grey600;
   static const Color onSuccess = white;
   
+  // Border Colors
+  static const Color border = grey300;
+  
   // Grey Scale
   static const Color grey50 = Color(0xFFFAFAFA);
   static const Color grey100 = Color(0xFFF5F5F5);

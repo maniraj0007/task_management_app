@@ -13,6 +13,11 @@ class AppDimensions {
   static const double spacing56 = 56.0;
   static const double spacing64 = 64.0;
   
+  // Spacing aliases for consistency
+  static const double spacingSmall = spacing8;
+  static const double spacingMedium = spacing16;
+  static const double spacingLarge = spacing32;
+  
   // Padding
   static const double paddingXS = 4.0;
   static const double paddingS = 8.0;

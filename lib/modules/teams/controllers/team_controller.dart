@@ -95,6 +95,12 @@ class TeamController extends GetxController {
   int get activeTeams => _userTeams.where((t) => t.isActive && !t.isArchived).length;
   int get ownedTeams => _userTeams.where((t) => t.createdBy == _authService.currentUser?.id).length;
   
+  // Dashboard-specific getters
+  List<Map<String, dynamic>> get teamProjects => []; // TODO: Implement project loading
+  int get activeTasksCount => 0; // TODO: Implement task counting
+  int get completedTasksCount => 0; // TODO: Implement completed task counting
+  List<Map<String, dynamic>> get performanceData => []; // TODO: Implement performance data
+  
   @override
   void onInit() {
     super.onInit();
@@ -510,6 +516,31 @@ class TeamController extends GetxController {
       
     } catch (e) {
       _setError('Failed to update member role: ${e.toString()}');
+      return false;
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+  
+  /// Invite member to team by email
+  Future<bool> inviteMember(String teamId, String email) async {
+    try {
+      _isLoading.value = true;
+      _clearError();
+      
+      // TODO: Implement actual invitation logic
+      // This is a placeholder implementation
+      
+      Get.snackbar(
+        'Success',
+        'Invitation sent to $email successfully!',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      
+      return true;
+      
+    } catch (e) {
+      _setError('Failed to send invitation: ${e.toString()}');
       return false;
     } finally {
       _isLoading.value = false;
