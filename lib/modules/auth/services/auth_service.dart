@@ -26,6 +26,9 @@ class AuthService extends GetxService {
   bool get isAuthenticated => _firebaseUser.value != null;
   bool get isEmailVerified => _firebaseUser.value?.emailVerified ?? false;
   
+  // Stream getters
+  Stream<bool> get isAuthenticatedStream => _firebaseUser.stream.map((user) => user != null);
+  
   @override
   Future<void> onInit() async {
     super.onInit();

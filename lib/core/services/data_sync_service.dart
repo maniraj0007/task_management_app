@@ -102,7 +102,7 @@ class DataSyncService extends GetxService {
 
   /// Setup authentication listener
   void _setupAuthListener() {
-    _authService.isAuthenticated.listen((isAuthenticated) {
+    _authService.isAuthenticatedStream.listen((isAuthenticated) {
       if (isAuthenticated) {
         _startDataStreams();
       } else {
@@ -447,7 +447,7 @@ class DataSyncService extends GetxService {
 
   /// Refresh all data
   Future<void> refreshData() async {
-    if (_authService.isAuthenticated.value) {
+    if (_authService.isAuthenticated) {
       _stopDataStreams();
       await Future.delayed(const Duration(milliseconds: 500));
       _startDataStreams();
