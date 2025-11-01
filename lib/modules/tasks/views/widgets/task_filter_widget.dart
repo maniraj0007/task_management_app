@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../controllers/task_controller.dart';
+import '../../controllers/task_list_controller.dart';
+import '../../../../core/enums/task_enums.dart';
 
 /// Task Filter Widget
 /// Advanced filtering and sorting options for tasks
@@ -17,7 +18,7 @@ class TaskFilterWidget extends StatefulWidget {
 }
 
 class _TaskFilterWidgetState extends State<TaskFilterWidget> {
-  final TaskController _taskController = Get.find<TaskController>();
+  final TaskListController _taskController = Get.find<TaskListController>();
 
   @override
   Widget build(BuildContext context) {
@@ -73,14 +74,6 @@ class _TaskFilterWidgetState extends State<TaskFilterWidget> {
           ),
           const SizedBox(height: 16),
 
-          // Assignee filter
-          _buildFilterSection(
-            'Assignee',
-            Icons.person,
-            _buildAssigneeFilter(),
-          ),
-          const SizedBox(height: 16),
-
           // Sort options
           _buildFilterSection(
             'Sort By',
@@ -121,33 +114,33 @@ class _TaskFilterWidgetState extends State<TaskFilterWidget> {
       children: [
         _buildFilterChip(
           'All',
-          _taskController.statusFilter == 'all',
-          () => _taskController.setStatusFilter('all'),
+          _taskController.selectedStatusFilter == null,
+          () => _taskController.setStatusFilter(null),
         ),
         _buildFilterChip(
           'To Do',
-          _taskController.statusFilter == 'todo',
-          () => _taskController.setStatusFilter('todo'),
+          _taskController.selectedStatusFilter == TaskStatus.todo,
+          () => _taskController.setStatusFilter(TaskStatus.todo),
         ),
         _buildFilterChip(
           'In Progress',
-          _taskController.statusFilter == 'in_progress',
-          () => _taskController.setStatusFilter('in_progress'),
+          _taskController.selectedStatusFilter == TaskStatus.inProgress,
+          () => _taskController.setStatusFilter(TaskStatus.inProgress),
         ),
         _buildFilterChip(
           'Review',
-          _taskController.statusFilter == 'review',
-          () => _taskController.setStatusFilter('review'),
+          _taskController.selectedStatusFilter == TaskStatus.review,
+          () => _taskController.setStatusFilter(TaskStatus.review),
         ),
         _buildFilterChip(
           'Completed',
-          _taskController.statusFilter == 'completed',
-          () => _taskController.setStatusFilter('completed'),
+          _taskController.selectedStatusFilter == TaskStatus.completed,
+          () => _taskController.setStatusFilter(TaskStatus.completed),
         ),
         _buildFilterChip(
           'Cancelled',
-          _taskController.statusFilter == 'cancelled',
-          () => _taskController.setStatusFilter('cancelled'),
+          _taskController.selectedStatusFilter == TaskStatus.cancelled,
+          () => _taskController.setStatusFilter(TaskStatus.cancelled),
         ),
       ],
     ));
@@ -160,60 +153,38 @@ class _TaskFilterWidgetState extends State<TaskFilterWidget> {
       children: [
         _buildFilterChip(
           'All',
-          _taskController.priorityFilter == 'all',
-          () => _taskController.setPriorityFilter('all'),
+          _taskController.selectedPriorityFilter == null,
+          () => _taskController.setPriorityFilter(null),
         ),
         _buildPriorityChip(
           'Low',
           Colors.green,
-          _taskController.priorityFilter == 'low',
-          () => _taskController.setPriorityFilter('low'),
+          _taskController.selectedPriorityFilter == TaskPriority.low,
+          () => _taskController.setPriorityFilter(TaskPriority.low),
         ),
         _buildPriorityChip(
           'Medium',
           Colors.blue,
-          _taskController.priorityFilter == 'medium',
-          () => _taskController.setPriorityFilter('medium'),
+          _taskController.selectedPriorityFilter == TaskPriority.medium,
+          () => _taskController.setPriorityFilter(TaskPriority.medium),
         ),
         _buildPriorityChip(
           'High',
           Colors.orange,
-          _taskController.priorityFilter == 'high',
-          () => _taskController.setPriorityFilter('high'),
+          _taskController.selectedPriorityFilter == TaskPriority.high,
+          () => _taskController.setPriorityFilter(TaskPriority.high),
         ),
         _buildPriorityChip(
           'Urgent',
           Colors.red,
-          _taskController.priorityFilter == 'urgent',
-          () => _taskController.setPriorityFilter('urgent'),
+          _taskController.selectedPriorityFilter == TaskPriority.urgent,
+          () => _taskController.setPriorityFilter(TaskPriority.urgent),
         ),
       ],
     ));
   }
 
-  Widget _buildAssigneeFilter() {
-    return Obx(() => Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: [
-        _buildFilterChip(
-          'All',
-          _taskController.assigneeFilter == 'all',
-          () => _taskController.setAssigneeFilter('all'),
-        ),
-        _buildFilterChip(
-          'Assigned to Me',
-          _taskController.assigneeFilter == 'me',
-          () => _taskController.setAssigneeFilter('me'),
-        ),
-        _buildFilterChip(
-          'Unassigned',
-          _taskController.assigneeFilter == 'unassigned',
-          () => _taskController.setAssigneeFilter('unassigned'),
-        ),
-      ],
-    ));
-  }
+
 
   Widget _buildSortOptions() {
     return Obx(() => Column(
@@ -225,23 +196,23 @@ class _TaskFilterWidgetState extends State<TaskFilterWidget> {
           children: [
             _buildFilterChip(
               'Created Date',
-              _taskController.sortBy == 'created_date',
-              () => _taskController.setSortBy('created_date'),
+              _taskController.selectedSort == 'createdAt',
+              () => _taskController.updateSort('createdAt'),
             ),
             _buildFilterChip(
               'Due Date',
-              _taskController.sortBy == 'due_date',
-              () => _taskController.setSortBy('due_date'),
+              _taskController.selectedSort == 'dueDate',
+              () => _taskController.updateSort('dueDate'),
             ),
             _buildFilterChip(
               'Title',
-              _taskController.sortBy == 'title',
-              () => _taskController.setSortBy('title'),
+              _taskController.selectedSort == 'title',
+              () => _taskController.updateSort('title'),
             ),
             _buildFilterChip(
               'Priority',
-              _taskController.sortBy == 'priority',
-              () => _taskController.setSortBy('priority'),
+              _taskController.selectedSort == 'priority',
+              () => _taskController.updateSort('priority'),
             ),
           ],
         ),
@@ -261,10 +232,10 @@ class _TaskFilterWidgetState extends State<TaskFilterWidget> {
                   Text('Ascending'),
                 ],
               ),
-              selected: _taskController.sortAscending,
+              selected: _taskController.isAscending,
               onSelected: (selected) {
-                if (selected) {
-                  _taskController.setSortBy(_taskController.sortBy, ascending: true);
+                if (selected && !_taskController.isAscending) {
+                  _taskController.toggleSortOrder();
                 }
               },
             ),
@@ -278,10 +249,10 @@ class _TaskFilterWidgetState extends State<TaskFilterWidget> {
                   Text('Descending'),
                 ],
               ),
-              selected: !_taskController.sortAscending,
+              selected: !_taskController.isAscending,
               onSelected: (selected) {
-                if (selected) {
-                  _taskController.setSortBy(_taskController.sortBy, ascending: false);
+                if (selected && _taskController.isAscending) {
+                  _taskController.toggleSortOrder();
                 }
               },
             ),
@@ -336,12 +307,7 @@ class _TaskFilterWidgetState extends State<TaskFilterWidget> {
   }
 
   void _clearAllFilters() {
-    _taskController.setStatusFilter('all');
-    _taskController.setPriorityFilter('all');
-    _taskController.setAssigneeFilter('all');
-    _taskController.setSortBy('created_date', ascending: false);
-    _taskController.setSearchQuery('');
-    
+    _taskController.clearFilters();
     widget.onFiltersChanged?.call();
   }
 }
