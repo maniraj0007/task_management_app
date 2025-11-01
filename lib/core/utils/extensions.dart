@@ -527,8 +527,8 @@ extension BuildContextExtensions on BuildContext {
   }
   
   /// Navigate and replace current route
-  Future<T?> pushReplacementNamed<T>(String routeName, {Object? arguments}) {
-    return Navigator.of(this).pushReplacementNamed<T>(routeName, arguments: arguments);
+  Future<T?> pushReplacementNamed<T extends Object?>(String routeName, {Object? arguments}) {
+    return Navigator.of(this).pushReplacementNamed<T, T>(routeName, arguments: arguments);
   }
   
   /// Pop current route

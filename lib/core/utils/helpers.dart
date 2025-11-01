@@ -115,6 +115,29 @@ class Helpers {
     return text == null || text.trim().isEmpty;
   }
   
+  /// Check if string is valid email
+  static bool isValidEmail(String? email) {
+    if (email == null || email.trim().isEmpty) return false;
+    
+    // Email regex pattern
+    final emailRegex = RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
+    
+    return emailRegex.hasMatch(email.trim());
+  }
+  
+  /// Check if string is valid phone number
+  static bool isValidPhoneNumber(String? phone) {
+    if (phone == null || phone.trim().isEmpty) return false;
+    
+    // Remove all non-digit characters
+    final digitsOnly = phone.replaceAll(RegExp(r'[^\d]'), '');
+    
+    // Phone number should have 10-15 digits
+    return digitsOnly.length >= 10 && digitsOnly.length <= 15;
+  }
+  
   /// Generate random string
   static String generateRandomString(int length) {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -225,7 +248,7 @@ class Helpers {
   // ==================== LIST HELPERS ====================
   
   /// Check if list is null or empty
-  static bool isNullOrEmpty<T>(List<T>? list) {
+  static bool isListNullOrEmpty<T>(List<T>? list) {
     return list == null || list.isEmpty;
   }
   
