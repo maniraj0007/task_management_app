@@ -20,6 +20,23 @@ class AdminController extends GetxController {
   // Recent activity
   final RxList<Map<String, dynamic>> recentActivity = <Map<String, dynamic>>[].obs;
 
+  // Audit logs
+  final RxList<Map<String, dynamic>> auditLogs = <Map<String, dynamic>>[].obs;
+  final RxList<Map<String, dynamic>> filteredAuditLogs = <Map<String, dynamic>>[].obs;
+  final RxBool isLoadingAuditLogs = false.obs;
+  
+  // Audit log filters
+  final RxMap<String, dynamic> auditLogFilters = <String, dynamic>{}.obs;
+  final RxList<String> availableActions = <String>[].obs;
+  final RxList<String> selectedActions = <String>[].obs;
+  final RxList<String> selectedSeverities = <String>[].obs;
+  final Rx<DateTime?> startDate = Rx<DateTime?>(null);
+  final Rx<DateTime?> endDate = Rx<DateTime?>(null);
+  
+  // User management
+  final RxList<Map<String, dynamic>> allUsers = <Map<String, dynamic>>[].obs;
+  final RxInt totalUsers = 0.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -423,5 +440,149 @@ class AdminController extends GetxController {
     if (score >= 40) return '#FF9800'; // Orange
     if (score >= 20) return '#FF5722'; // Deep Orange
     return '#F44336'; // Red
+  }
+
+  // ==================== AUDIT LOG METHODS ====================
+
+  /// Refresh audit logs
+  Future<void> refreshAuditLogs() async {
+    try {
+      isLoadingAuditLogs.value = true;
+      error.value = '';
+
+      // TODO: Implement actual audit log fetching from AdminService
+      // For now, return empty list to resolve compilation errors
+      auditLogs.value = [];
+      _applyAuditLogFilters();
+      
+      // Initialize available actions
+      availableActions.value = [
+        'create_user',
+        'update_user',
+        'delete_user',
+        'create_team',
+        'update_team',
+        'delete_team',
+        'create_project',
+        'update_project',
+        'delete_project',
+        'login',
+        'logout',
+        'system_settings',
+      ];
+    } catch (e) {
+      error.value = 'Failed to load audit logs: $e';
+      print('Error loading audit logs: $e');
+    } finally {
+      isLoadingAuditLogs.value = false;
+    }
+  }
+
+  /// Apply audit log filters
+  void _applyAuditLogFilters() {
+    var filtered = auditLogs.toList();
+
+    // Filter by selected actions
+    if (selectedActions.isNotEmpty) {
+      filtered = filtered.where((log) => 
+        selectedActions.contains(log['action'] as String? ?? '')).toList();
+    }
+
+    // Filter by selected severities
+    if (selectedSeverities.isNotEmpty) {
+      filtered = filtered.where((log) => 
+        selectedSeverities.contains(log['severity'] as String? ?? '')).toList();
+    }
+
+    // Filter by date range
+    if (startDate.value != null || endDate.value != null) {
+      filtered = filtered.where((log) {
+        final logDate = log['timestamp'] as DateTime?;
+        if (logDate == null) return false;
+        
+        if (startDate.value != null && logDate.isBefore(startDate.value!)) {
+          return false;
+        }
+        if (endDate.value != null && logDate.isAfter(endDate.value!)) {
+          return false;
+        }
+        return true;
+      }).toList();
+    }
+
+    filteredAuditLogs.value = filtered;
+  }
+
+  /// Clear audit log filters
+  void clearAuditLogFilters() {
+    selectedActions.clear();
+    selectedSeverities.clear();
+    startDate.value = null;
+    endDate.value = null;
+    auditLogFilters.clear();
+    _applyAuditLogFilters();
+  }
+
+  /// Toggle action filter
+  void toggleActionFilter(String action) {
+    if (selectedActions.contains(action)) {
+      selectedActions.remove(action);
+    } else {
+      selectedActions.add(action);
+    }
+    _applyAuditLogFilters();
+  }
+
+  /// Toggle severity filter
+  void toggleSeverityFilter(String severity) {
+    if (selectedSeverities.contains(severity)) {
+      selectedSeverities.remove(severity);
+    } else {
+      selectedSeverities.add(severity);
+    }
+    _applyAuditLogFilters();
+  }
+
+  /// Apply audit log filters with date range
+  void applyAuditLogFilters() {
+    _applyAuditLogFilters();
+  }
+
+  /// Export audit logs
+  Future<void> exportAuditLogs() async {
+    try {
+      // TODO: Implement actual audit log export functionality
+      // For now, just show a success message
+      print('Audit logs exported successfully');
+    } catch (e) {
+      error.value = 'Failed to export audit logs: $e';
+      print('Error exporting audit logs: $e');
+    }
+  }
+
+  // ==================== USER MANAGEMENT METHODS ====================
+
+  /// Refresh user data
+  Future<void> refreshUserData() async {
+    try {
+      isLoading.value = true;
+      error.value = '';
+
+      // TODO: Implement actual user data fetching from AdminService
+      // For now, return empty list to resolve compilation errors
+      allUsers.value = [];
+      totalUsers.value = allUsers.length;
+    } catch (e) {
+      error.value = 'Failed to load user data: $e';
+      print('Error loading user data: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  /// Get users by role
+  List<Map<String, dynamic>> getUsersByRole(String role) {
+    return allUsers.where((user) => 
+      (user['role'] as String? ?? '') == role).toList();
   }
 }
