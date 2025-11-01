@@ -59,6 +59,9 @@ class UserModel {
 
   /// Backward compatibility getter for photoURL (capital URL)
   String? get photoURL => photoUrl;
+  
+  /// Backward compatibility getter for profilePicture
+  String? get profilePicture => photoUrl;
 
   /// Check if user has a specific permission
   bool hasPermission(String permission) {
