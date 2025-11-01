@@ -29,7 +29,6 @@ class AppStrings {
   static const String projects = 'Projects';
   static const String profile = 'Profile';
   static const String settings = 'Settings';
-  static const String admin = 'Admin';
   static const String analytics = 'Analytics';
   static const String notifications = 'Notifications';
   
@@ -252,7 +251,6 @@ class AppStrings {
   static const String overdueTasksCount = 'Overdue Tasks';
   static const String taskCompletionRate = 'Task Completion Rate';
   static const String teamPerformance = 'Team Performance';
-  static const String projectProgress = 'Project Progress';
   static const String userActivity = 'User Activity';
   static const String monthlyReport = 'Monthly Report';
   static const String weeklyReport = 'Weekly Report';

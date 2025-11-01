@@ -454,7 +454,7 @@ class RetryInterceptor extends dio.Interceptor {
       await Future.delayed(retryDelay * (retryCount + 1));
       
       try {
-        final response = await Dio().fetch(err.requestOptions);
+        final response = await dio.Dio().fetch(err.requestOptions);
         handler.resolve(response);
         return;
       } catch (e) {
