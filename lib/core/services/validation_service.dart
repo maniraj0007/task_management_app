@@ -277,7 +277,7 @@ class ValidationService extends GetxService {
     }
     
     // Check for potentially harmful characters
-    if (query != null && RegExp(r'[<>"\']').hasMatch(query)) {
+    if (query != null && RegExp(r'[<>]').hasMatch(query)) {
       return 'Search query contains invalid characters';
     }
     
