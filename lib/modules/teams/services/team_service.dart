@@ -84,7 +84,7 @@ class TeamService extends GetxService {
       return createdTeam;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamService.createTeam');
+      _errorHandler.logError('TeamService.createTeam', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -111,7 +111,7 @@ class TeamService extends GetxService {
       return team;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamService.getTeamById');
+      _errorHandler.logError('TeamService.getTeamById', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -148,7 +148,7 @@ class TeamService extends GetxService {
       return updatedTeam;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamService.updateTeam');
+      _errorHandler.logError('TeamService.updateTeam', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -200,7 +200,7 @@ class TeamService extends GetxService {
       return true;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamService.deleteTeam');
+      _errorHandler.logError('TeamService.deleteTeam', error: e, stackTrace: stackTrace);
       return false;
     }
   }
@@ -219,7 +219,7 @@ class TeamService extends GetxService {
       return updatedTeam != null;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamService.archiveTeam');
+      _errorHandler.logError('TeamService.archiveTeam', error: e, stackTrace: stackTrace);
       return false;
     }
   }
@@ -286,7 +286,7 @@ class TeamService extends GetxService {
       return createdMember;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamService.addTeamMember');
+      _errorHandler.logError('TeamService.addTeamMember', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -340,7 +340,7 @@ class TeamService extends GetxService {
       return true;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamService.removeTeamMember');
+      _errorHandler.logError('TeamService.removeTeamMember', error: e, stackTrace: stackTrace);
       return false;
     }
   }
@@ -390,7 +390,7 @@ class TeamService extends GetxService {
       return updatedMember;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamService.updateMemberRole');
+      _errorHandler.logError('TeamService.updateMemberRole', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -424,7 +424,7 @@ class TeamService extends GetxService {
       return members;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamService.getTeamMembers');
+      _errorHandler.logError('TeamService.getTeamMembers', error: e, stackTrace: stackTrace);
       return [];
     }
   }
@@ -472,7 +472,7 @@ class TeamService extends GetxService {
       return teams;
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamService.getUserTeams');
+      _errorHandler.logError('TeamService.getUserTeams', error: e, stackTrace: stackTrace);
       return [];
     }
   }
@@ -498,7 +498,7 @@ class TeamService extends GetxService {
       }).toList();
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamService.searchTeams');
+      _errorHandler.logError('TeamService.searchTeams', error: e, stackTrace: stackTrace);
       return [];
     }
   }
@@ -524,7 +524,7 @@ class TeamService extends GetxService {
           }
         },
         onError: (error) {
-          _errorHandler.logError(error, null, context: 'TeamService.listenToTeam');
+          _errorHandler.logError('TeamService.listenToTeam', error: error);
           _teamStreamControllers[teamId]?.addError(error);
         },
       );
@@ -555,7 +555,7 @@ class TeamService extends GetxService {
           _memberStreamControllers[teamId]?.add(members);
         },
         onError: (error) {
-          _errorHandler.logError(error, null, context: 'TeamService.listenToTeamMembers');
+          _errorHandler.logError('TeamService.listenToTeamMembers', error: error);
           _memberStreamControllers[teamId]?.addError(error);
         },
       );
@@ -572,7 +572,7 @@ class TeamService extends GetxService {
       final docRef = await _teamMembersCollection.add(member.toJson());
       return member.copyWith(id: docRef.id);
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamService._createTeamMember');
+      _errorHandler.logError('TeamService._createTeamMember', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -596,7 +596,7 @@ class TeamService extends GetxService {
       });
       
     } catch (e, stackTrace) {
-      _errorHandler.logError(e, stackTrace, context: 'TeamService._getTeamMember');
+      _errorHandler.logError('TeamService._getTeamMember', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -657,7 +657,7 @@ class TeamService extends GetxService {
       });
     } catch (e) {
       // Log activity errors shouldn't break the main operation
-      _errorHandler.logError(e, null, context: 'TeamService._logTeamActivity');
+      _errorHandler.logError('TeamService._logTeamActivity', error: e);
     }
   }
 }

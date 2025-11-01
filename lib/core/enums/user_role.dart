@@ -95,6 +95,9 @@ enum UserRole {
   /// Check if this role can create teams
   bool get canCreateTeams => isAdmin;
 
+  /// Check if this role can delete teams
+  bool get canDeleteTeams => isSuperAdmin;
+
   /// Check if this role can create projects
   bool get canCreateProjects => isAdmin;
 

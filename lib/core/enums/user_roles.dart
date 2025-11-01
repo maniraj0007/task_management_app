@@ -116,6 +116,11 @@ enum UserRole {
     return this == UserRole.superAdmin || this == UserRole.admin;
   }
 
+  /// Check if this role can delete teams
+  bool get canDeleteTeams {
+    return this == UserRole.superAdmin;
+  }
+
   /// Check if this role can manage projects
   bool get canManageProjects {
     return this == UserRole.superAdmin || this == UserRole.admin;
