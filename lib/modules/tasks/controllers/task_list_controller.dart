@@ -355,4 +355,10 @@ class TaskListController extends GetxController {
     _showOverdueOnly.value = false;
     _applyFiltersAndSort();
   }
+  
+  /// Clear search query and reset search state
+  void clearSearch() {
+    _searchQuery.value = '';
+    _applyFiltersAndSort();
+  }
 }

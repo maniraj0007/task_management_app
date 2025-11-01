@@ -25,6 +25,13 @@ class TaskController extends GetxController {
   final RxInt _overdueTasksCount = 0.obs;
   final RxInt _inProgressTasksCount = 0.obs;
   
+  // Additional reactive state for UI components
+  final RxString _error = ''.obs;
+  final RxString _searchQuery = ''.obs;
+  final RxList<String> _selectedTasks = <String>[].obs;
+  final RxList<TaskModel> _pendingTasks = <TaskModel>[].obs;
+  final RxList<TaskModel> _completedTasks = <TaskModel>[].obs;
+  
   // Getters
   bool get isLoading => _isLoading.value;
   bool get isInitialized => _isInitialized.value;
@@ -36,6 +43,13 @@ class TaskController extends GetxController {
   int get completedTasksCount => _completedTasksCount.value;
   int get overdueTasksCount => _overdueTasksCount.value;
   int get inProgressTasksCount => _inProgressTasksCount.value;
+  
+  // Additional getters for UI components
+  String get error => _error.value;
+  int get totalTasks => _totalTasksCount.value; // Alias for backward compatibility
+  List<TaskModel> get pendingTasks => _pendingTasks;
+  List<TaskModel> get completedTasks => _completedTasks;
+  List<String> get selectedTasks => _selectedTasks;
   
   @override
   Future<void> onInit() async {
@@ -574,5 +588,28 @@ class TaskController extends GetxController {
       loadOverdueTasks(),
     ]);
     _updateTaskStatistics();
+  }
+  
+  /// Set search query for task filtering
+  void setSearchQuery(String query) {
+    _searchQuery.value = query;
+    // Implement search logic here if needed
+  }
+  
+  /// Clear task selection
+  void clearTaskSelection() {
+    _selectedTasks.clear();
+  }
+  
+  /// Delete selected tasks
+  Future<void> deleteSelectedTasks() async {
+    try {
+      for (final taskId in _selectedTasks) {
+        await deleteTask(taskId);
+      }
+      _selectedTasks.clear();
+    } catch (e) {
+      _error.value = 'Failed to delete selected tasks: $e';
+    }
   }
 }

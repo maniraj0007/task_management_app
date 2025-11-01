@@ -148,6 +148,9 @@ class TaskModel {
   /// Check if task is blocked
   bool get isBlocked => blockedByIds.isNotEmpty;
 
+  /// Backward compatibility getter for assignees
+  List<String> get assignees => assignedUsers;
+
   /// Check if task is assigned to multiple users
   bool get isMultiAssigned => assignedUsers.length > 1;
 
