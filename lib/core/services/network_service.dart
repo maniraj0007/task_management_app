@@ -16,6 +16,7 @@ class NetworkService extends GetxService {
   
   final RxBool _isConnected = true.obs;
   bool get isConnected => _isConnected.value;
+  Stream<bool> get isConnectedStream => _isConnected.stream;
   
   @override
   Future<void> onInit() async {

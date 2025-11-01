@@ -5,6 +5,7 @@ import '../models/user_model.dart';
 import '../models/task_model.dart';
 import '../models/team_model.dart';
 import '../models/project_model.dart';
+import '../enums/task_enums.dart';
 import '../../modules/notifications/models/notification_model.dart';
 import 'auth_service.dart';
 import 'storage_service.dart';
@@ -90,7 +91,7 @@ class DataSyncService extends GetxService {
 
   /// Setup network connectivity listener
   void _setupNetworkListener() {
-    _networkService.isConnected.listen((isConnected) {
+    _networkService.isConnectedStream.listen((isConnected) {
       _isOffline.value = !isConnected;
       
       if (isConnected && _pendingOperations.isNotEmpty) {
@@ -171,36 +172,43 @@ class DataSyncService extends GetxService {
         .where('assignees', arrayContains: userId)
         .snapshots();
 
-    // Combine streams
-    final subscription = Rx.combineLatest2(
-      personalTasksStream,
-      teamTasksStream,
-      (QuerySnapshot personal, QuerySnapshot team) {
-        final personalTasks = personal.docs
-            .map((doc) => TaskModel.fromFirestore(doc))
-            .toList();
-        
-        final teamTasks = team.docs
-            .map((doc) => TaskModel.fromFirestore(doc))
-            .toList();
-
-        // Merge and deduplicate
-        final allTasks = <String, TaskModel>{};
-        for (final task in [...personalTasks, ...teamTasks]) {
-          allTasks[task.id] = task;
-        }
-
-        return allTasks.values.toList();
+    // Listen to both streams and combine results
+    final personalSubscription = personalTasksStream.listen(
+      (personal) {
+        _updateTasksFromStreams(personal, null);
       },
-    ).listen(
-      (tasks) {
-        _tasks.value = tasks;
-        _cacheData('tasks', tasks.map((t) => t.toJson()).toList());
+      onError: (error) => _handleError('Task stream error', error),
+    );
+    
+    final teamSubscription = teamTasksStream.listen(
+      (team) {
+        _updateTasksFromStreams(null, team);
       },
       onError: (error) => _handleError('Task stream error', error),
     );
 
-    _subscriptions.add(subscription);
+    _subscriptions.add(personalSubscription);
+    _subscriptions.add(teamSubscription);
+  }
+
+  /// Update tasks from combined streams
+  void _updateTasksFromStreams(QuerySnapshot? personal, QuerySnapshot? team) {
+    final personalTasks = personal?.docs
+        .map((doc) => TaskModel.fromFirestore(doc))
+        .toList() ?? <TaskModel>[];
+    
+    final teamTasks = team?.docs
+        .map((doc) => TaskModel.fromFirestore(doc))
+        .toList() ?? <TaskModel>[];
+
+    // Merge and deduplicate
+    final allTasks = <String, TaskModel>{};
+    for (final task in [...personalTasks, ...teamTasks]) {
+      allTasks[task.id] = task;
+    }
+
+    _tasks.value = allTasks.values.toList();
+    _cacheData('tasks', _tasks.value.map((t) => t.toJson()).toList());
   }
 
   /// Start team stream
@@ -489,7 +497,7 @@ class DataSyncService extends GetxService {
 
   /// Get pending task count
   int get pendingTaskCount {
-    return _tasks.value.where((t) => t.status != 'completed').length;
+    return _tasks.value.where((t) => t.status != TaskStatus.completed).length;
   }
 
   @override

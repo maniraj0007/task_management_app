@@ -23,6 +23,7 @@ class AuthService extends GetxService {
   User? get firebaseUser => _firebaseUser.value;
   UserModel? get currentUser => _currentUser.value;
   bool get isLoggedIn => _firebaseUser.value != null;
+  bool get isAuthenticated => _firebaseUser.value != null;
   bool get isEmailVerified => _firebaseUser.value?.emailVerified ?? false;
   
   @override

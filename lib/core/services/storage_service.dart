@@ -467,4 +467,58 @@ class StorageService extends GetxService {
       return false;
     }
   }
+
+  // ==================== GENERIC DATA OPERATIONS ====================
+  
+  /// Generic method to store any data (delegates to appropriate typed method)
+  Future<bool> setData(String key, dynamic value, {bool persistent = false}) async {
+    if (value is String) {
+      return await setString(key, value, persistent: persistent);
+    } else if (value is int) {
+      return await setInt(key, value, persistent: persistent);
+    } else if (value is bool) {
+      return await setBool(key, value, persistent: persistent);
+    } else if (value is double) {
+      return await setDouble(key, value, persistent: persistent);
+    } else if (value is List<String>) {
+      return await setStringList(key, value, persistent: persistent);
+    } else if (value is Map<String, dynamic>) {
+      return await setJson(key, value, persistent: persistent);
+    } else if (value is List<Map<String, dynamic>>) {
+      return await setJsonList(key, value, persistent: persistent);
+    } else {
+      // For other types, convert to JSON string
+      return await setString(key, jsonEncode(value), persistent: persistent);
+    }
+  }
+  
+  /// Generic method to get any data (returns dynamic, caller should cast)
+  dynamic getData(String key, {bool persistent = false}) {
+    // Try different types in order of likelihood
+    final stringValue = getString(key, persistent: persistent);
+    if (stringValue != null) {
+      // Try to parse as JSON first
+      try {
+        return jsonDecode(stringValue);
+      } catch (e) {
+        // If not JSON, return as string
+        return stringValue;
+      }
+    }
+    
+    // Try other types
+    final intValue = getInt(key, persistent: persistent);
+    if (intValue != null) return intValue;
+    
+    final boolValue = getBool(key, persistent: persistent);
+    if (boolValue != null) return boolValue;
+    
+    final doubleValue = getDouble(key, persistent: persistent);
+    if (doubleValue != null) return doubleValue;
+    
+    final listValue = getStringList(key, persistent: persistent);
+    if (listValue != null) return listValue;
+    
+    return null;
+  }
 }
